@@ -21,8 +21,8 @@ spring:
 logging:
   level:
     root: error
-    org.springframework.web: trace
-    org.github.mbmll.snippet: trace
+    org.springframework.web: info
+    org.github.mbmll: trace
   config:
     classpath: logback-spring.xml
 
