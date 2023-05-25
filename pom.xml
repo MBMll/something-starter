@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>response-packing-starter</module>
         <module>example</module>
         <module>decorated-response-body-starter</module>
     </modules>
