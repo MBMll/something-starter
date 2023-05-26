@@ -14,7 +14,7 @@ import java.util.Objects;
 
 /**
  * @Author xlc
- * @Description
+ * @Description encapsulate the return value of api.
  * @Date 2023/5/25 22:28
  */
 @RestControllerAdvice
@@ -32,11 +32,8 @@ public class DecoratedResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
         Class<?> bodyType = Objects.requireNonNull(returnType.getMethod()).getReturnType();
-        if (bodyType.isAssignableFrom(ResponseEntity.class) ||
-                bodyType.isAssignableFrom(Res.class) ||
-                converterType.isInstance(new StringHttpMessageConverter())) {
-            return false;
-        }
-        return true;
+        return !bodyType.isAssignableFrom(ResponseEntity.class) &&
+                !bodyType.isAssignableFrom(Res.class) &&
+                !converterType.isInstance(new StringHttpMessageConverter());
     }
 }
