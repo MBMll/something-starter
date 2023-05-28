@@ -8,6 +8,7 @@ Various features, frameworks, extensions, components are encapsulated as starter
   * [decorated-response-body-example](decorated-response-body-example)
   * [application-context-example](application-context-example)
   * [i18n-example](i18n-example)
+  * [mail-example](mail-example)
 * [style](style) is from rocketmq
 
 1. [decorated-response-body-starter](decorated-response-body-starter) is done

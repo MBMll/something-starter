@@ -16,6 +16,7 @@
         <module>application-context-example</module>
         <module>decorated-response-body-example</module>
         <module>i18n-example</module>
+        <module>email-example</module>
     </modules>
 
     <properties>

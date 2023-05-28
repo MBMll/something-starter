@@ -1,0 +1,13 @@
+server:
+  port: 80
+
+logging:
+  level:
+    org.github.mbmll.examples.i18n: debug
+
+spring:
+  mail:
+    properties:
+      "[mail.smtp.connectiontimeout]": 5000
+      "[mail.smtp.timeout]": 3000
+      "[mail.smtp.writetimeout]": 5000
