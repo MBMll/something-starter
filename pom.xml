@@ -12,6 +12,8 @@
     <modules>
         <module>decorated-response-body-starter</module>
         <module>log-aspect-starter</module>
+        <module>i18n-starter</module>
+        <module>application-context-starter</module>
     </modules>
 
     <properties>
