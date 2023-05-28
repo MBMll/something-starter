@@ -1,0 +1,14 @@
+i18n:
+  cache-millis: 100200
+
+logging:
+  level:
+    org.github.mbmll.examples.i18n: debug
+
+spring:
+  messages:
+    basename: "i18n/messages"
+    fallback-to-system-locale: false
+    use-code-as-default-message: false
+    encoding: "UTF-8"
+    cache-duration: 12200

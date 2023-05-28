@@ -1,2 +1,7 @@
 i18n:
-  cache-millis: 100000
+  cache-millis: 100200
+
+logging:
+  level:
+    org.github.mbmll.examples.i18n: debug
+
