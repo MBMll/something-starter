@@ -16,7 +16,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @Description encapsulate the return value of api.
  * @Date 2023/5/25 22:28
  */
-@RestControllerAdvice public class DecoratedResponseBodyAdvice implements ResponseBodyAdvice<Object> {
+@RestControllerAdvice
+public class DecoratedResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
