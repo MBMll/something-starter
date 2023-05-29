@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @LogPointcut
 @RestController
-@RequestMapping("response-packing")
+@RequestMapping("demo")
 public class DemoController {
 
-    @GetMapping("hello")
+    @GetMapping("t1")
     public DemoEntity hello(String name) {
         return DemoEntity.builder().name(name).build();
     }
