@@ -12,6 +12,9 @@
     <modules>
         <module>decorated-response-body-starter</module>
         <module>log-aspect-starter</module>
+        <module>i18n-starter</module>
+        <module>application-context-starter</module>
+        <module>exception-handler-starter</module>
     </modules>
 
     <properties>
@@ -56,6 +59,7 @@
         <powermock-module-junit4.version>2.0.2</powermock-module-junit4.version>
         <mockito-inline.version>3.5.15</mockito-inline.version>
         <commons-io.version>2.7</commons-io.version>
+        <apache.commons.lang3.version>3.12.0</apache.commons.lang3.version>
     </properties>
 
     <dependencyManagement>
@@ -97,6 +101,12 @@
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-devtools</artifactId>
@@ -233,6 +243,12 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${apache.commons.lang3.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
