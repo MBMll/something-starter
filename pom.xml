@@ -16,6 +16,7 @@
         <module>application-context-starter</module>
         <module>exception-handler-starter</module>
         <module>minio-starter</module>
+        <module>captcha-starter</module>
     </modules>
 
     <properties>

@@ -19,5 +19,6 @@ Various features, frameworks, extensions, components are encapsulated as starter
 4. [i18n-starter](i18n-starter) is done
 5. [exception-handler-starter](exception-handler-starter) is working
 6. [minio-starter](minio-starter) is working
+6. [captcha-starter](captcha-starter/README.md) is working
 
 ###  
