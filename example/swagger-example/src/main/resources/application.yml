@@ -1,0 +1,13 @@
+logging:
+  level:
+    org.github.mbmll.examples.swagger: debug
+
+server:
+  port: 80
+
+swagger:
+  enabled: true
+  application-name: swagger-demo
+  application-version: 1.0.0
+  application-description: springfox swagger 3.0 join demo application
+  try-host: http://localhost:${server.port}

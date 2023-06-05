@@ -1,0 +1,12 @@
+logging:
+  level:
+    org.github.mbmll.examples.i18n: debug
+
+server:
+  port: 80
+
+minio:
+  endpoint: https://
+  access-key:
+  secret-key:
+  region:

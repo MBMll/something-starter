@@ -17,6 +17,8 @@
         <module>decorated-response-body-example</module>
         <module>i18n-example</module>
         <module>email-example</module>
+        <module>minio-example</module>
+        <module>swagger-example</module>
     </modules>
 
     <properties>

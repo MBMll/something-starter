@@ -15,6 +15,7 @@
         <module>i18n-starter</module>
         <module>application-context-starter</module>
         <module>exception-handler-starter</module>
+        <module>minio-starter</module>
     </modules>
 
     <properties>
@@ -45,6 +46,7 @@
         <junit.version>4.13.1</junit.version>
         <!-- doc -->
         <swagger.version>2.9.2</swagger.version>
+        <swagger3.version>3.0.0</swagger3.version>
         <!-- part3 -->
         <postgresql.version>42.4.1</postgresql.version>
         <jedis.version>4.2.3</jedis.version>
@@ -234,15 +236,21 @@
                 <artifactId>netty-socketio</artifactId>
                 <version>${netty-socketio.version}</version>
             </dependency>
+            <!-- doc-->
+            <!--            <dependency>-->
+            <!--                <groupId>io.springfox</groupId>-->
+            <!--                <artifactId>springfox-swagger2</artifactId>-->
+            <!--                <version>${swagger3.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>io.springfox</groupId>-->
+            <!--                <artifactId>springfox-swagger-ui</artifactId>-->
+            <!--                <version>${swagger3.version}</version>-->
+            <!--            </dependency>-->
             <dependency>
                 <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${swagger.version}</version>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>${swagger3.version}</version>
             </dependency>
 
             <dependency>
