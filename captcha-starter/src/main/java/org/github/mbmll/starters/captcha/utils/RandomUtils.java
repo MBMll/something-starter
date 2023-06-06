@@ -4,7 +4,7 @@
  *http://www.anji-plus.com
  *All rights reserved.
  */
-package org.github.mbmll.starters.captcha;
+package org.github.mbmll.starters.captcha.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;

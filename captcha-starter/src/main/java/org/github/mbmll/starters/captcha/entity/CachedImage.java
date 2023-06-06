@@ -1,8 +1,7 @@
-package org.github.mbmll.starters.captcha;
-
-import lombok.Data;
+package org.github.mbmll.starters.captcha.entity;
 
 import java.awt.image.BufferedImage;
+import lombok.Data;
 
 /**
  * @Author xlc

@@ -1,4 +1,4 @@
-package org.github.mbmll.starters.captcha;
+package org.github.mbmll.starters.captcha.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

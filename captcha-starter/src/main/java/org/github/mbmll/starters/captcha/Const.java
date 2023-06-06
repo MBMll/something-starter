@@ -110,4 +110,5 @@ public interface Const {
      */
     String CAPTCHA_WORD_COUNT = "captcha.word.count";
     int HAN_ZI_SIZE = 25;
+    String IMAGE_TYPE_PNG = "png";
 }

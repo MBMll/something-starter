@@ -1,10 +1,10 @@
-package org.github.mbmll.starters.captcha;
+package org.github.mbmll.starters.captcha.utils;
 
-import lombok.extern.slf4j.Slf4j;
-
-import java.awt.*;
+import java.awt.Font;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
+import org.github.mbmll.starters.captcha.Const;
 
 import static org.github.mbmll.starters.captcha.Const.HAN_ZI_SIZE;
 
@@ -25,10 +25,12 @@ public class Utils {
      */
     public static Font loadWaterMarkFont(String waterMarkFontStr) {
         try {
-            if (waterMarkFontStr.toLowerCase().endsWith(".ttf") || waterMarkFontStr.toLowerCase().endsWith(".ttc") || waterMarkFontStr.toLowerCase().endsWith(".otf")) {
+            if (waterMarkFontStr.toLowerCase().endsWith(".ttf") ||
+                waterMarkFontStr.toLowerCase().endsWith(".ttc") ||
+                waterMarkFontStr.toLowerCase().endsWith(".otf")) {
                 return Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(
-                        Utils.class.getResourceAsStream("/fonts/" + waterMarkFontStr))).deriveFont(Font.BOLD,
-                                                                                                   HAN_ZI_SIZE >> 1);
+                        Utils.class.getResourceAsStream("/fonts/" + waterMarkFontStr)))
+                    .deriveFont(Font.BOLD, HAN_ZI_SIZE >> 1);
             } else {
                 return new Font(waterMarkFontStr, Font.BOLD, HAN_ZI_SIZE / 2);
             }
@@ -37,11 +39,12 @@ public class Utils {
         }
         return null;
     }
-    public static int getEnOrChLength(String s) {
+
+    public static int getEnOrChLength(String content) {
         int enCount = 0;
         int chCount = 0;
-        for (int i = 0; i < s.length(); i++) {
-            int length = String.valueOf(s.charAt(i)).getBytes(StandardCharsets.UTF_8).length;
+        for (int i = 0; i < content.length(); i++) {
+            int length = String.valueOf(content.charAt(i)).getBytes(StandardCharsets.UTF_8).length;
             if (length > 1) {
                 chCount++;
             } else {

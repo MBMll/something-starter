@@ -4,9 +4,7 @@
  *http://www.anji-plus.com
  *All rights reserved.
  */
-package org.github.mbmll.starters.captcha;
-
-import org.apache.commons.lang3.StringUtils;
+package org.github.mbmll.starters.captcha.utils;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -14,6 +12,7 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
+import org.apache.commons.lang3.StringUtils;
 
 public class AESUtil {
     //算法
@@ -46,7 +45,6 @@ public class AESUtil {
      * @return 编码后的base 64 code
      */
     public static String base64Encode(byte[] bytes) {
-        //return Base64.encodeBase64String(bytes);
         return Base64.getEncoder().encodeToString(bytes);
     }
 
@@ -55,9 +53,8 @@ public class AESUtil {
      *
      * @param base64Code 待解码的base 64 code
      * @return 解码后的byte[]
-     * @throws Exception
      */
-    public static byte[] base64Decode(String base64Code) throws Exception {
+    public static byte[] base64Decode(String base64Code) {
         Base64.Decoder decoder = Base64.getDecoder();
         return StringUtils.isEmpty(base64Code) ? null : decoder.decode(base64Code);
     }
@@ -127,18 +124,5 @@ public class AESUtil {
         return StringUtils.isEmpty(encryptStr) ? null : aesDecryptByBytes(base64Decode(encryptStr), decryptKey);
     }
 
-    /**
-     * 测试
-     */
-    public static void main(String[] args) throws Exception {
-        String randomString = RandomUtils.getRandomString(16);
-        String content = "hahhahaahhahni";
-        System.out.println("加密前：" + content);
-        System.out.println("加密密钥和解密密钥：" + randomString);
-        String encrypt = aesEncrypt(content, randomString);
-        System.out.println("加密后：" + encrypt);
-        String decrypt = aesDecrypt(encrypt, randomString);
-        System.out.println("解密后：" + decrypt);
-    }
 
 }

@@ -4,7 +4,7 @@
  *http://www.anji-plus.com
  *All rights reserved.
  */
-package org.github.mbmll.starters.captcha;
+package org.github.mbmll.starters.captcha.service;
 
 import com.anji.captcha.model.common.CaptchaTypeEnum;
 import com.anji.captcha.model.common.RepCodeEnum;
@@ -19,6 +19,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import org.github.mbmll.starters.captcha.AbstractCaptchaService;
+import org.github.mbmll.starters.captcha.CaptchaDTO;
+import org.github.mbmll.starters.captcha.Const;
+import org.github.mbmll.starters.captcha.PointVO;
+import org.github.mbmll.starters.captcha.ResponseModel;
+import org.github.mbmll.starters.captcha.utils.AESUtil;
+import org.github.mbmll.starters.captcha.utils.ImageUtils;
+import org.github.mbmll.starters.captcha.utils.RandomUtils;
 
 /**
  * 点选文字验证码

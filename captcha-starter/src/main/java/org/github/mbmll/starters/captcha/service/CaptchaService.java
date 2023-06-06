@@ -4,9 +4,9 @@
  *http://www.anji-plus.com
  *All rights reserved.
  */
-package org.github.mbmll.starters.captcha;
+package org.github.mbmll.starters.captcha.service;
 
-import java.nio.charset.StandardCharsets;
+import org.github.mbmll.starters.captcha.CaptchaCache;
 
 /**
  * 验证码服务接口
@@ -16,15 +16,13 @@ import java.nio.charset.StandardCharsets;
  */
 public interface CaptchaService<T, R> {
 
-
     /**
      * 获取验证码
      *
      * @param paramter
-     *
      * @return
      */
-    R generate(T paramter, CaptchaCache cache);
+    T generate(CaptchaCache cache);
 
     /**
      * 二次校验验证码(后端)

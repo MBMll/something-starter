@@ -6,14 +6,15 @@
  */
 package org.github.mbmll.starters.captcha;
 
-import com.anji.captcha.service.CaptchaCacheService;
-import com.anji.captcha.util.*;
 import java.awt.Font;
 import java.util.Properties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.github.mbmll.starters.captcha.service.CaptchaService;
+import org.github.mbmll.starters.captcha.utils.ImageUtils;
+import org.github.mbmll.starters.captcha.utils.MD5Util;
 
-import static org.github.mbmll.starters.captcha.Utils.loadWaterMarkFont;
+import static org.github.mbmll.starters.captcha.utils.Utils.loadWaterMarkFont;
 
 /**
  * Created by raodeming on 2019/12/25.
@@ -21,7 +22,6 @@ import static org.github.mbmll.starters.captcha.Utils.loadWaterMarkFont;
 @Slf4j
 public abstract class AbstractCaptchaService implements CaptchaService {
 
-    protected static final String IMAGE_TYPE_PNG = "png";
     protected static int HAN_ZI_SIZE_HALF = Const.HAN_ZI_SIZE / 2;
     //check校验坐标
     protected static String REDIS_CAPTCHA_KEY = "RUNNING:CAPTCHA:%s";

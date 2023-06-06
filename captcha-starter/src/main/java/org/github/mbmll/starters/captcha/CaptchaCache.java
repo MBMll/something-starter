@@ -8,5 +8,5 @@ package org.github.mbmll.starters.captcha;
 
 public interface CaptchaCache {
 
-    void save(String key, String value);
+    void save(byte[] value);
 }
