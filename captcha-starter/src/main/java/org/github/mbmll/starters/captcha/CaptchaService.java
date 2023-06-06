@@ -6,6 +6,8 @@
  */
 package org.github.mbmll.starters.captcha;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * 验证码服务接口
  *
@@ -14,10 +16,12 @@ package org.github.mbmll.starters.captcha;
  */
 public interface CaptchaService<T, R> {
 
+
     /**
      * 获取验证码
      *
      * @param paramter
+     *
      * @return
      */
     R generate(T paramter, CaptchaCache cache);
@@ -26,8 +30,8 @@ public interface CaptchaService<T, R> {
      * 二次校验验证码(后端)
      *
      * @param paramter
+     *
      * @return
      */
     R verify(T paramter, CaptchaCache cache);
-
 }

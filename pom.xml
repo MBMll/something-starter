@@ -17,6 +17,7 @@
         <module>exception-handler-starter</module>
         <module>minio-starter</module>
         <module>captcha-starter</module>
+        <module>utils</module>
     </modules>
 
     <properties>
@@ -232,6 +233,7 @@
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
             </dependency>
+            <!-- socket -->
             <dependency>
                 <groupId>com.corundumstudio.socketio</groupId>
                 <artifactId>netty-socketio</artifactId>
@@ -253,11 +255,25 @@
                 <artifactId>springfox-boot-starter</artifactId>
                 <version>${swagger3.version}</version>
             </dependency>
-
+            <!-- util -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${apache.commons.lang3.version}</version>
+            </dependency>
+            <!-- test -->
+            <dependency>
+                <groupId>com.github.javafaker</groupId>
+                <artifactId>javafaker</artifactId>
+                <scope>test</scope>
+                <version>1.0.2</version>
+            </dependency>
+            <!-- test -->
+            <dependency>
+                <groupId>com.github.jsonzou</groupId>
+                <artifactId>jmockdata</artifactId>
+                <scope>test</scope>
+                <version>4.2.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -62,7 +62,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
                 x = RandomUtils.getRandomInt(avgWidth * wordSortIndex + HAN_ZI_SIZE_HALF, avgWidth * (wordSortIndex + 1) - HAN_ZI_SIZE_HALF);
             }
         }
-        y = RandomUtils.getRandomInt(HAN_ZI_SIZE, imageHeight - HAN_ZI_SIZE);
+        y = RandomUtils.getRandomInt(Const.HAN_ZI_SIZE, imageHeight - Const.HAN_ZI_SIZE);
         return new PointVO(x, y, null);
     }
 
@@ -76,7 +76,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
         super.init(config);
         clickWordFontStr = config.getProperty(Const.CAPTCHA_FONT_TYPE, "SourceHanSansCN-Normal.otf");
         try {
-            int size = Integer.valueOf(config.getProperty(Const.CAPTCHA_FONT_SIZE, HAN_ZI_SIZE + ""));
+            int size = Integer.valueOf(config.getProperty(Const.CAPTCHA_FONT_SIZE, Const.HAN_ZI_SIZE + ""));
 
             if (clickWordFontStr.toLowerCase().endsWith(".ttf") || clickWordFontStr.toLowerCase().endsWith(".ttc") || clickWordFontStr.toLowerCase().endsWith(".otf")) {
                 this.clickWordFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/" + clickWordFontStr)).deriveFont(Font.BOLD, size);
@@ -157,7 +157,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
             return ResponseModel.errorMsg(e.getMessage());
         }
         for (int i = 0; i < point.size(); i++) {
-            if (point.get(i).x - HAN_ZI_SIZE > point1.get(i).x || point1.get(i).x > point.get(i).x + HAN_ZI_SIZE || point.get(i).y - HAN_ZI_SIZE > point1.get(i).y || point1.get(i).y > point.get(i).y + HAN_ZI_SIZE) {
+            if (point.get(i).x - Const.HAN_ZI_SIZE > point1.get(i).x || point1.get(i).x > point.get(i).x + Const.HAN_ZI_SIZE || point.get(i).y - Const.HAN_ZI_SIZE > point1.get(i).y || point1.get(i).y > point.get(i).y + Const.HAN_ZI_SIZE) {
                 afterValidateFail(captchaDTO);
                 return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_COORDINATE_ERROR);
             }
@@ -271,7 +271,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
 
         backgroundGraphics.setFont(waterMarkFont);
         backgroundGraphics.setColor(Color.white);
-        backgroundGraphics.drawString(waterMark, width - getEnOrChLength(waterMark), height - (HAN_ZI_SIZE / 2) + 7);
+        backgroundGraphics.drawString(waterMark, width - getEnOrChLength(waterMark), height - (Const.HAN_ZI_SIZE / 2) + 7);
 
         //创建合并图片
         BufferedImage combinedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

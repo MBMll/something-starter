@@ -109,4 +109,5 @@ public interface Const {
      * 点选文字个数
      */
     String CAPTCHA_WORD_COUNT = "captcha.word.count";
+    int HAN_ZI_SIZE = 25;
 }
