@@ -6,6 +6,7 @@
  */
 package org.github.mbmll.starters.captcha.service;
 
+import java.io.IOException;
 import org.github.mbmll.starters.captcha.CaptchaCache;
 
 /**
@@ -19,10 +20,11 @@ public interface CaptchaService<T, R> {
     /**
      * 获取验证码
      *
-     * @param paramter
+     * @param cache
      * @return
+     * @throws IOException
      */
-    T generate(CaptchaCache cache);
+    T generate(CaptchaCache cache) throws IOException;
 
     /**
      * 二次校验验证码(后端)

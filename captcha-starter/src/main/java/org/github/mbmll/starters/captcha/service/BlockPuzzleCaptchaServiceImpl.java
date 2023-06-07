@@ -119,15 +119,15 @@ public class BlockPuzzleCaptchaServiceImpl implements CaptchaService<CaptchaDTO,
 
         //抠图图片
         CachedImage cachedJigsawImage = RandomUtils.pick(slidingBlockCache);
-        BufferedImage jigsawImage = ImageUtils.getBufferedImage(cachedJigsawImage);
-        if (null == jigsawImage) {
+        BufferedImage jigsawBufferedImage = ImageUtils.getBufferedImage(cachedJigsawImage);
+        if (null == jigsawBufferedImage) {
             throw new CaptchaException("滑动底图未初始化成功，请检查路径");
         }
-
+        cachedJigsawImage.setBufferedImage(jigsawBufferedImage);
         //随机生成拼图坐标
-        PointVO point = getRandomPoint(originalImage, jigsawImage);
+        PointVO point = getRandomPoint(originalImage, jigsawBufferedImage);
 
-        CaptchaDTO captcha = pictureTemplatesCut(originalImage, jigsawImage, cachedJigsawImage.getBase64(), point);
+        CaptchaDTO captcha = pictureTemplatesCut(originalImage, cachedJigsawImage, point);
         cache.save(SerializationUtils.serialize(captcha.getPoint()));
         if (captcha == null || StringUtils.isBlank(captcha.getJigsawImageBase64()) ||
             StringUtils.isBlank(captcha.getOriginalImageBase64())) {
@@ -140,37 +140,17 @@ public class BlockPuzzleCaptchaServiceImpl implements CaptchaService<CaptchaDTO,
         return captcha;
     }
 
-    @Override
-    public ResponseModel verify(CaptchaDTO captchaDTO) {
-        ResponseModel r = super.verify(captchaDTO);
-        if (!validatedReq(r)) {
-            return r;
-        }
-        try {
-            String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaDTO.getCaptchaVerification());
-            if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {
-                return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
-            }
-            //二次校验取值后，即刻失效
-            CaptchaServiceFactory.getCache(cacheType).delete(codeKey);
-        } catch (Exception e) {
-            log.error("验证码坐标解析失败", e);
-            return ResponseModel.errorMsg(e.getMessage());
-        }
-        return ResponseModel.success();
-    }
-
     /**
      * 随机生成拼图坐标.
      *
      * @param originalImage
-     * @param jigsawImage
+     * @param jigsawBufferedImage
      * @return
      */
-    public PointVO getRandomPoint(BufferedImage originalImage, BufferedImage jigsawImage) {
+    public PointVO getRandomPoint(BufferedImage originalImage, BufferedImage jigsawBufferedImage) {
         Random random = new Random();
-        int widthDifference = originalImage.getWidth() - jigsawImage.getWidth();
-        int heightDifference = originalImage.getHeight() - jigsawImage.getHeight();
+        int widthDifference = originalImage.getWidth() - jigsawBufferedImage.getWidth();
+        int heightDifference = originalImage.getHeight() - jigsawBufferedImage.getHeight();
         int x, y;
         if (widthDifference <= 0) {
             x = 5;
@@ -190,22 +170,24 @@ public class BlockPuzzleCaptchaServiceImpl implements CaptchaService<CaptchaDTO,
      *
      * @throws Exception
      */
-    public CaptchaDTO pictureTemplatesCut(BufferedImage originalImage, BufferedImage jigsawImage,
-        String jigsawImageBase64, PointVO point) throws IOException {
+    public CaptchaDTO pictureTemplatesCut(BufferedImage originalImage, CachedImage cachedJigsawImage,
+        PointVO point) throws IOException {
 
         CaptchaDTO captchaDTO = new CaptchaDTO();
 
         int originalWidth = originalImage.getWidth();
         int originalHeight = originalImage.getHeight();
         //
-        int jigsawWidth = jigsawImage.getWidth();
-        int jigsawHeight = jigsawImage.getHeight();
+        BufferedImage jigsawBufferedImage = cachedJigsawImage.getBufferedImage();
+        String jigsawImageBase64 = cachedJigsawImage.getBase64();
+        int jigsawWidth = jigsawBufferedImage.getWidth();
+        int jigsawHeight = jigsawBufferedImage.getHeight();
 
         int x = point.getX();
         int y = point.getY();
 
         //生成新的拼图图像
-        BufferedImage newJigsawImage = new BufferedImage(jigsawWidth, jigsawHeight, jigsawImage.getType());
+        BufferedImage newJigsawImage = new BufferedImage(jigsawWidth, jigsawHeight, jigsawBufferedImage.getType());
         Graphics2D graphics = newJigsawImage.createGraphics();
 
         int bold = 5;
@@ -213,7 +195,7 @@ public class BlockPuzzleCaptchaServiceImpl implements CaptchaService<CaptchaDTO,
         newJigsawImage = graphics.getDeviceConfiguration()
             .createCompatibleImage(jigsawWidth, jigsawHeight, Transparency.TRANSLUCENT);
         // 新建的图像根据模板颜色赋值,源图生成遮罩
-        cutByTemplate(originalImage, jigsawImage, newJigsawImage, x, 0);
+        cutByTemplate(originalImage, jigsawBufferedImage, newJigsawImage, x, 0);
         if (captchaProperties.getCaptchaInterferenceOptions() > 0) {
             int position;
             if (originalWidth - x - 5 > jigsawWidth * 2) {
@@ -223,26 +205,15 @@ public class BlockPuzzleCaptchaServiceImpl implements CaptchaService<CaptchaDTO,
                 //在原扣图左边插入干扰图
                 position = RandomUtils.getRandomInt(100, x - jigsawWidth - 5);
             }
-            while (true) {
-                String s = ImageUtils.getslidingBlock();
-                if (!jigsawImageBase64.equals(s)) {
-                    interferenceByTemplate(originalImage, Objects.requireNonNull(ImageUtils.getBufferedImage(s)),
-                        position, 0);
-                    break;
-                }
-            }
+            CachedImage cachedImage = RandomUtils.pick(slidingBlockCache, cachedJigsawImage.getFileName());
+            interferenceByTemplate(originalImage, Objects.requireNonNull(ImageUtils.getBufferedImage(cachedImage)),
+                position, 0);
         }
         if (captchaProperties.getCaptchaInterferenceOptions() > 1) {
-            RandomUtils.pick(slidingBlockCache, )
-            while (true) {
-                String s = ImageUtils.getslidingBlock();
-                if (!jigsawImageBase64.equals(s)) {
-                    Integer randomInt = RandomUtils.getRandomInt(jigsawWidth, 100 - jigsawWidth);
-                    interferenceByTemplate(originalImage, Objects.requireNonNull(ImageUtils.getBufferedImage(s)),
-                        randomInt, 0);
-                    break;
-                }
-            }
+            CachedImage cachedImage = RandomUtils.pick(slidingBlockCache, cachedJigsawImage.getFileName());
+            Integer position = RandomUtils.getRandomInt(jigsawWidth, 100 - jigsawWidth);
+            interferenceByTemplate(originalImage, Objects.requireNonNull(ImageUtils.getBufferedImage(cachedImage)),
+                position, 0);
         }
 
         // 设置“抗锯齿”的属性

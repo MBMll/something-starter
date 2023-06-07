@@ -7,12 +7,14 @@
 package org.github.mbmll.starters.captcha.utils;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RandomUtils {
 
@@ -79,8 +81,9 @@ public class RandomUtils {
         return ThreadLocalRandom.current().nextInt(endNum - startNum) + startNum;
     }
 
-    public static <K, V> V pick(Map<K, V> map) {
-        List<K> ks = new ArrayList<>(map.keySet());
+    public static <K, V> V pick(Map<K, V> map, K... excludedKeys) {
+        Set<K> excludedKeySet = Stream.of(excludedKeys).collect(Collectors.toSet());
+        List<K> ks = map.keySet().stream().filter(k -> !excludedKeySet.contains(k)).collect(Collectors.toList());
         Integer randomInt = getRandomInt(0, ks.size());
         return map.get(ks.get(randomInt));
     }
