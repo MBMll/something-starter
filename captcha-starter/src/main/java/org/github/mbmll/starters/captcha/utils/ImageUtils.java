@@ -25,6 +25,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.github.mbmll.starters.captcha.entity.CachedImage;
 import org.springframework.util.Base64Utils;
 
+import static org.github.mbmll.starters.captcha.Const.IMAGE_TYPE_PNG;
+
 @Slf4j
 public class ImageUtils {
 
@@ -33,60 +35,6 @@ public class ImageUtils {
             return getResourcesImagesFile(defaultPath);
         }
         return getImagesFile(outPath);
-        //滑动拼图
-//        if (StringUtils.isBlank(captchaOriginalPathJigsaw)) {
-//            originalCacheMap.putAll(getResourcesImagesFile("defaultImages/jigsaw/original"));
-//            slidingBlockCacheMap.putAll(getResourcesImagesFile("defaultImages/jigsaw/slidingBlock"));
-//        } else {
-//            originalCacheMap.putAll(getImagesFile(captchaOriginalPathJigsaw + File.separator + "original"));
-//            slidingBlockCacheMap.putAll(getImagesFile(captchaOriginalPathJigsaw + File.separator + "slidingBlock"));
-//        }
-//        //点选文字
-//        if (StringUtils.isBlank(captchaOriginalPathClick)) {
-//            picClickCacheMap.putAll(getResourcesImagesFile("defaultImages/pic-click"));
-//        } else {
-//            picClickCacheMap.putAll(getImagesFile(captchaOriginalPathClick));
-//        }
-//        fileNameMap.put(CaptchaBaseMapEnum.ORIGINAL.getCodeValue(), originalCacheMap.keySet().toArray(new String[0]));
-//        fileNameMap.put(CaptchaBaseMapEnum.SLIDING_BLOCK.getCodeValue(), slidingBlockCacheMap.keySet().toArray(new String[0]));
-//        fileNameMap.put(CaptchaBaseMapEnum.PIC_CLICK.getCodeValue(), picClickCacheMap.keySet().toArray(new String[0]));
-//        log.info("初始化底图:{}", JsonUtil.toJSONString(fileNameMap));
-    }
-
-    public static void cacheBootImage(Map<String, String> originalMap, Map<String, String> slidingBlockMap,
-        Map<String, String> picClickMap) {
-        originalCacheMap.putAll(originalMap);
-        slidingBlockCacheMap.putAll(slidingBlockMap);
-        picClickCacheMap.putAll(picClickMap);
-        fileNameMap.put(CaptchaBaseMapEnum.ORIGINAL.getCodeValue(), originalCacheMap.keySet().toArray(new String[0]));
-        fileNameMap.put(CaptchaBaseMapEnum.SLIDING_BLOCK.getCodeValue(), slidingBlockCacheMap.keySet().toArray(new String[0]));
-        fileNameMap.put(CaptchaBaseMapEnum.PIC_CLICK.getCodeValue(), picClickCacheMap.keySet().toArray(new String[0]));
-        log.info("自定义resource底图: {}", fileNameMap);
-    }
-
-    public static BufferedImage getOriginal(String fileName) {
-        String[] strings = fileNameMap.get(CaptchaBaseMapEnum.ORIGINAL.getCodeValue());
-        if (null == strings || strings.length == 0) {
-            return null;
-        }
-        Integer randomInt = RandomUtils.getRandomInt(0, strings.length);
-        String s = originalCacheMap.get(strings[randomInt]);
-        return getBufferedImage(s);
-    }
-
-    public static String getslidingBlock() {
-        String[] strings = fileNameMap.get(CaptchaBaseMapEnum.SLIDING_BLOCK.getCodeValue());
-        if (null == strings || strings.length == 0) {
-            return null;
-        }
-        Integer randomInt = RandomUtils.getRandomInt(0, strings.length);
-        String s = slidingBlockCacheMap.get(strings[randomInt]);
-        return s;
-    }
-
-    public static BufferedImage getPicClick() throws IOException {
-        String s = RandomUtils.pick(picClickCacheMap);
-        return getBufferedImage(s);
     }
 
     /**
@@ -95,17 +43,13 @@ public class ImageUtils {
      * @param templateImage
      * @return
      */
-    public static String getImageToBase64Str(BufferedImage templateImage) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(templateImage, "png", baos);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static String getBase64(BufferedImage templateImage) throws IOException {
+        byte[] bytes;
+        try (var baos = new ByteArrayOutputStream()) {
+            ImageIO.write(templateImage, IMAGE_TYPE_PNG, baos);
+            bytes = baos.toByteArray();
         }
-        byte[] bytes = baos.toByteArray();
-
-        Base64.Encoder encoder = Base64.getEncoder();
-
+        var encoder = Base64.getEncoder();
         return encoder.encodeToString(bytes).trim();
     }
 

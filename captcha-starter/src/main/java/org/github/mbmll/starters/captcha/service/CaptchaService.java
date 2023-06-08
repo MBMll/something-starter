@@ -30,8 +30,7 @@ public interface CaptchaService<T, R> {
      * 二次校验验证码(后端)
      *
      * @param paramter
-     *
      * @return
      */
-    R verify(T paramter, CaptchaCache cache);
+    R verify(T paramter, CaptchaCache cache) throws Exception;
 }

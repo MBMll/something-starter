@@ -11,4 +11,5 @@ import lombok.Data;
 public class CaptchaProperties {
     private Boolean captchaAesStatus = true;
     private Integer captchaInterferenceOptions = 0;
+    private Integer slipOffset = 5;
 }

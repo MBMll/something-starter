@@ -9,4 +9,6 @@ package org.github.mbmll.starters.captcha;
 public interface CaptchaCache {
 
     void save(byte[] value);
+
+    byte[] getAndRemove();
 }

@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -27,6 +28,8 @@ import org.github.mbmll.starters.captcha.ResponseModel;
 import org.github.mbmll.starters.captcha.utils.AESUtil;
 import org.github.mbmll.starters.captcha.utils.ImageUtils;
 import org.github.mbmll.starters.captcha.utils.RandomUtils;
+
+import static org.github.mbmll.starters.captcha.utils.Utils.getEnOrChLength;
 
 /**
  * 点选文字验证码
@@ -104,7 +107,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
     }
 
     @Override
-    public ResponseModel generate(CaptchaDTO captchaDTO) {
+    public ResponseModel generate(CaptchaDTO captchaDTO) throws IOException {
         ResponseModel r = super.generate(captchaDTO);
         if (!validatedReq(r)) {
             return r;
@@ -229,7 +232,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
         this.fontColorRandom = fontColorRandom;
     }
 
-    private CaptchaDTO getImageData(BufferedImage backgroundImage) {
+    private CaptchaDTO getImageData(BufferedImage backgroundImage) throws IOException {
         CaptchaDTO dataVO = new CaptchaDTO();
         List<String> wordList = new ArrayList<String>();
         List<PointVO> pointList = new ArrayList();
@@ -286,7 +289,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
         Graphics combinedGraphics = combinedImage.getGraphics();
         combinedGraphics.drawImage(backgroundImage, 0, 0, null);
 
-        dataVO.setOriginalImageBase64(ImageUtils.getImageToBase64Str(backgroundImage).replaceAll("\r|\n", ""));
+        dataVO.setOriginalImageBase64(ImageUtils.getBase64(backgroundImage).replaceAll("\r|\n", ""));
         //pointList信息不传到前端，只做后端check校验
         //dataVO.setPointList(pointList);
         dataVO.setWordList(wordList);
