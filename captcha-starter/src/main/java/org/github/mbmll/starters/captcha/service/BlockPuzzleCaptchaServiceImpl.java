@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
@@ -32,7 +31,6 @@ import org.github.mbmll.starters.captcha.CaptchaException;
 import org.github.mbmll.starters.captcha.PointVO;
 import org.github.mbmll.starters.captcha.entity.CachedImage;
 import org.github.mbmll.starters.captcha.properties.CaptchaProperties;
-import org.github.mbmll.starters.captcha.properties.WaterMark;
 import org.github.mbmll.starters.captcha.utils.AESUtil;
 import org.github.mbmll.starters.captcha.utils.ImageUtils;
 import org.github.mbmll.starters.captcha.utils.RandomUtils;
@@ -49,14 +47,12 @@ import static org.github.mbmll.starters.captcha.utils.BlockPuzzleCaptchaUtil.int
  */
 @Slf4j
 @Data
-public class BlockPuzzleCaptchaServiceImpl implements CaptchaService<CaptchaDTO, Boolean> {
+public class BlockPuzzleCaptchaServiceImpl extends CommonCaptchaService<CaptchaDTO, Boolean> {
 
     private Map<String, CachedImage> originalCache = new HashMap<>();
     private Map<String, CachedImage> slidingBlockCache = new HashMap<>();
 
     private CaptchaProperties captchaProperties;
-    private WaterMark waterMark;
-    private Font waterMarkFont;
 
     @Override
     public Boolean verify(CaptchaDTO captchaDTO, CaptchaCache cache) throws Exception {
@@ -72,7 +68,7 @@ public class BlockPuzzleCaptchaServiceImpl implements CaptchaService<CaptchaDTO,
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         PointVO targetPoint = mapper.readValue(Objects.requireNonNull(decrypt).getBytes(StandardCharsets.UTF_8),
             PointVO.class);
-
+        // check position
         return cachedPoint.getX() - captchaProperties.getSlipOffset() <= targetPoint.getX() &&
             targetPoint.getX() <= cachedPoint.getX() + captchaProperties.getSlipOffset() &&
             Objects.equals(cachedPoint.getY(), targetPoint.getY());
