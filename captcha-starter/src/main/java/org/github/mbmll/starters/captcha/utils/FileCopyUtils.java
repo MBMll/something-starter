@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.file.Files;
+import org.springframework.util.StreamUtils;
 
 public abstract class FileCopyUtils {
     public static final int BUFFER_SIZE = 4096;
@@ -30,23 +31,9 @@ public abstract class FileCopyUtils {
     }
 
     public static int copy(InputStream in, OutputStream out) throws IOException {
-        int var2;
-        try {
-            var2 = StreamUtils.copy(in, out);
-        } finally {
-            try {
-                in.close();
-            } catch (IOException var12) {
-            }
-
-            try {
-                out.close();
-            } catch (IOException var11) {
-            }
-
+        try (in; out) {
+            return StreamUtils.copy(in, out);
         }
-
-        return var2;
     }
 
     public static void copy(byte[] in, OutputStream out) throws IOException {

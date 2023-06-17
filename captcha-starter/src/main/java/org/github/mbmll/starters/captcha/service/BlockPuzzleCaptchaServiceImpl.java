@@ -206,9 +206,10 @@ public class BlockPuzzleCaptchaServiceImpl extends CommonCaptchaService<CaptchaD
         var backgroundGraphics = originalImage.getGraphics();
         int width = originalImage.getWidth();
         int height = originalImage.getHeight();
-        backgroundGraphics.setFont(waterMarkFont);
+        String waterMark = getWaterMark().getContent();
+        backgroundGraphics.setFont(getWaterMarkFont());
         backgroundGraphics.setColor(Color.white);
-        backgroundGraphics.drawString(waterMark.getContent(), width - Utils.getEnOrChLength(waterMark.getContent()), height - (HAN_ZI_SIZE / 2) + 7);
+        backgroundGraphics.drawString(waterMark, width - Utils.getEnOrChLength(waterMark), height - (HAN_ZI_SIZE / 2) + 7);
     }
 
 }

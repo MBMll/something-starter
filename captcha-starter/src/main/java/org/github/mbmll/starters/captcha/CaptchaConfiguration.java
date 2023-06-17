@@ -46,11 +46,10 @@ public class CaptchaConfiguration {
 
         var service = new ClickWordCaptchaServiceImpl();
         service.setWaterMarkFont(Utils.loadWaterMarkFont(waterMark.getFont()));
+        service.loadClickWordFont();
         service.setCaptchaProperties(captchaProperties);
-        service.setOriginalCache(cacheImage(
-            blockPuzzleCaptchaProperties.getBackgroundImagePath(), "defaultImages/jigsaw/original"));
-        service.setSlidingBlockCache(cacheImage(
-            blockPuzzleCaptchaProperties.getSlidingBlockImagePath(), "defaultImages/jigsaw/slidingBlock"));
+        service.setClickWordCache(cacheImage(
+            blockPuzzleCaptchaProperties.getBackgroundImagePath(), "defaultImages/pic-click"));
         return service;
     }
 

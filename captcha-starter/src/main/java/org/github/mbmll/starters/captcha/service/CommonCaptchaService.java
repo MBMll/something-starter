@@ -3,6 +3,7 @@ package org.github.mbmll.starters.captcha.service;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
+import lombok.Data;
 import org.github.mbmll.starters.captcha.properties.WaterMark;
 import org.github.mbmll.starters.captcha.utils.Utils;
 
@@ -13,7 +14,7 @@ import static org.github.mbmll.starters.captcha.Const.HAN_ZI_SIZE;
  * @Description
  * @Date 2023/6/12 0:27
  */
-
+@Data
 public abstract class CommonCaptchaService<T, R> implements CaptchaService<T, R> {
     private WaterMark waterMark;
     private Font waterMarkFont;
