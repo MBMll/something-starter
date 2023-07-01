@@ -10,6 +10,12 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>utils</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>common</module>
+        <module>hutool</module>
+    </modules>
 
     <dependencies>
         <dependency>
@@ -26,10 +32,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
         </dependency>
     </dependencies>
 

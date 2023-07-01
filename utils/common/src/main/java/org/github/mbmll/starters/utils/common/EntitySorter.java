@@ -1,4 +1,4 @@
-package org.github.mbmll.starters.utils;
+package org.github.mbmll.starters.utils.common;
 
 import java.util.HashMap;
 import java.util.List;
