@@ -18,6 +18,7 @@
         <module>minio-starter</module>
         <module>captcha-starter</module>
         <module>utils</module>
+        <module>multiply-thread-transaction-starter</module>
     </modules>
 
     <properties>
