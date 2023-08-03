@@ -12,7 +12,10 @@ Various features, frameworks, extensions, components are encapsulated as starter
   * [minio-example](minio-example/README.md) is working
   * [swagger-example](swagger-example/README.md) is done
 * [style](style) is from rocketmq
-* [utils](./utils)
+* [utils](./utils) is perennial.
+  * [common](./utils/common)
+  * [hutool](./utils/hutool)
+* [conecpt](./concept) is perennial.
 
 1. [decorated-response-body-starter](decorated-response-body-starter) is done
 2. [log-aspect-starter](log-aspect-starter) is done

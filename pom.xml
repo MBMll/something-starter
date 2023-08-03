@@ -65,6 +65,8 @@
         <mockito-inline.version>3.5.15</mockito-inline.version>
         <commons-io.version>2.7</commons-io.version>
         <apache.commons.lang3.version>3.12.0</apache.commons.lang3.version>
+        <oshi.version>6.1.2</oshi.version>
+        <jna.version>5.10.0</jna.version>
     </properties>
 
     <dependencyManagement>
@@ -170,11 +172,6 @@
                 <version>${modelmapper.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ntt.cmpf</groupId>
-                <artifactId>carbon-common</artifactId>
-                <version>${carbon.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
@@ -256,6 +253,26 @@
                 <artifactId>springfox-boot-starter</artifactId>
                 <version>${swagger3.version}</version>
             </dependency>
+
+            <!-- 获取系统信息 -->
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${oshi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>${jna.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna-platform</artifactId>
+                <version>${jna.version}</version>
+            </dependency>
+
             <!-- util -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
