@@ -6,7 +6,8 @@ server:
   port: 80
 
 minio:
-  endpoint: https://
-  access-key:
-  secret-key:
-  region:
+  enabled: true
+  endpoint: https://localhost:9000
+  access-key: admin
+  secret-key: admin123
+#  region:

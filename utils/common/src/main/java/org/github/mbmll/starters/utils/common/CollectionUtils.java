@@ -22,6 +22,13 @@ public class CollectionUtils {
         return target == null || target.isEmpty();
     }
 
+    /**
+     * @param sources
+     * @param comparator
+     * @param collector
+     * @param <T>
+     * @return
+     */
     public static <T> List<T> toTree(List<T> sources, Comparator<T> comparator, Collector<T> collector) {
         return getChildren(sources, null, comparator, collector);
     }
@@ -66,7 +73,7 @@ public class CollectionUtils {
             return sources;
         }
         Map<K, List<T>> groups = groupBy(sources, getParent);
-        Map<K, T> map = sources.stream().collect(Collectors.toMap(getCurrent, t -> t));
+        Map<K, T> map = sources.stream().collect(Collectors.toMap(getCurrent, Function.identity()));
         List<T> root = groups.remove(null);
         groups.forEach((k, ts) -> collector.putAll(map.get(k), ts));
         return root;

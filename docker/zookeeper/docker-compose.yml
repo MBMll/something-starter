@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  zk-1:
+    image: zookeeper:3.6
+    restart: always
+    container_name: zk-1
+    hostname: zk-1
+    # 给docker容器给超级权限，访问宿主机目录
+    privileged: true
+    ports:
+      - 2181:2181
+      - 8181:8080
+    environment:
+      # 当前zk实例的id
+      ZOO_MY_ID: 1
+      # 整个zk集群的机器端口列表（2181：对client端提供服务的端口，3888：选举leader使用，2888：集群内机器通讯使用（Leader监听此端口））
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+    volumes:
+      - ./zk-1/data:/data
+      - ./zk-1/datalog:/datalog
+      - ./zk-1/conf:/conf
+    networks:
+      - zk-net
+
+  zk-2:
+    image: zookeeper:3.6
+    restart: always
+    container_name: zk-2
+    hostname: zk-2
+    privileged: true
+    ports:
+      - 2182:2181
+      - 8182:8080
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+    volumes:
+      - ./zk-2/data:/data
+      - ./zk-2/datalog:/datalog
+      - ./zk-2/conf:/conf
+    networks:
+      - zk-net
+
+  zk-3:
+    image: zookeeper:3.6
+    restart: always
+    container_name: zk-3
+    hostname: zk-3
+    privileged: true
+    ports:
+      - 2183:2181
+      - 8183:8080
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+    volumes:
+      - ./zk-3/data:/data
+      - ./zk-3/datalog:/datalog
+      - ./zk-3/conf:/conf
+    networks:
+      - zk-net
+# 给zk集群配置一个网络，网络名为zk-net
+networks:
+  zk-net:
+    name: zk-net

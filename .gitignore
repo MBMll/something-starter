@@ -110,3 +110,5 @@ fabric.properties
 
 .idea
 *.iml
+
+docker/**/data

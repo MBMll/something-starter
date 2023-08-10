@@ -2,6 +2,7 @@ package org.github.mbmll.starters.minio;
 
 import io.minio.MinioClient;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.OkHttpClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -37,6 +38,7 @@ public class MinIOConfiguration {
         return MinioClient.builder()
             .endpoint(properties.getEndpoint())
             .credentials(properties.getAccessKey(), properties.getSecretKey())
+            .httpClient(new OkHttpClient())
             .region(properties.getRegion()).build();
     }
 }
