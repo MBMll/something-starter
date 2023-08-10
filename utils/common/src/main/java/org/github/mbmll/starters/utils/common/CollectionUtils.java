@@ -66,6 +66,17 @@ public class CollectionUtils {
         return map;
     }
 
+    /**
+     * group by parent key, map by key, set children quickly.
+     *
+     * @param sources
+     * @param getParent
+     * @param getCurrent
+     * @param collector
+     * @param <T>
+     * @param <K>
+     * @return
+     */
     public static <T, K> List<T> toTree(List<T> sources, Function<T, K> getParent, Function<T, K> getCurrent,
         Collector<T> collector) {
 
