@@ -9,11 +9,13 @@ package org.github.mbmll.starters.utils.common;
 public class ArrayUtils {
 
     /**
-     * @param arr
-     * @param start
-     * @param size
-     * @param offset
-     * @param <T>
+     * spin elements in assigned range.
+     *  such as : [1, 2, 3, 4, 5, 6, 7, 8, 9] => spin(arr, 0, 5, 4) => [5, 1, 2, 3, 4, 6, 7, 8, 9]
+     * @param arr    data
+     * @param start  start index
+     * @param size   size of change
+     * @param offset offset of change
+     * @param <T>    type
      */
     public static <T> void spin(T[] arr, int start, int size, int offset) {
         if (start < 0 || start >= arr.length)

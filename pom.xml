@@ -19,6 +19,7 @@
         <module>captcha-starter</module>
         <module>utils</module>
         <module>multiply-thread-transaction-starter</module>
+        <module>kafka-starter</module>
     </modules>
 
     <properties>

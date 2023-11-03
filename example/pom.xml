@@ -19,6 +19,7 @@
         <module>email-example</module>
         <module>minio-example</module>
         <module>swagger-example</module>
+        <module>cdc-example</module>
     </modules>
 
     <properties>
