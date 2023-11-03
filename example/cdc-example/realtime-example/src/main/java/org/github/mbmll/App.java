@@ -1,10 +1,25 @@
 package org.github.mbmll;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.ververica.cdc.connectors.mysql.MySQLSource;
+import com.alibaba.ververica.cdc.connectors.mysql.table.StartupOptions;
+import com.alibaba.ververica.cdc.debezium.DebeziumDeserializationSchema;
+import com.alibaba.ververica.cdc.debezium.DebeziumSourceFunction;
+import io.debezium.data.Envelope;
+import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.streaming.api.datastream.DataStreamSource;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.util.Collector;
+import org.apache.kafka.connect.data.Field;
+import org.apache.kafka.connect.data.Schema;
+import org.apache.kafka.connect.data.Struct;
+import org.apache.kafka.connect.source.SourceRecord;
+
 /**
  * Hello world!
  */
 public class App {
-    public static void main(String[] args) { //1. 创建执行环境
+    public static void main(String[] args) throws Exception { //1. 创建执行环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
 
@@ -70,3 +85,4 @@ public class App {
         env.execute();
     }
 }
+
