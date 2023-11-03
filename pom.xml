@@ -23,9 +23,6 @@
 
     <properties>
         <!-- base config -->
-        <java.version>11</java.version>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
         <skipTests>true</skipTests>
         <!-- encoding config -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -343,6 +340,19 @@
                 <maven.compiler.source>1.8</maven.compiler.source>
                 <maven.compiler.target>1.8</maven.compiler.target>
                 <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+            </properties>
+        </profile>
+        <profile>
+            <id>jdk-21</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <jdk>21</jdk>
+            </activation>
+            <properties>
+                <java.version>21</java.version>
+                <maven.compiler.source>21</maven.compiler.source>
+                <maven.compiler.target>21</maven.compiler.target>
+                <maven.compiler.compilerVersion>21</maven.compiler.compilerVersion>
             </properties>
         </profile>
     </profiles>
