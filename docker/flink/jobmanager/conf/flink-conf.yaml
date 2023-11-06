@@ -1,0 +1,42 @@
+# jobmanager地址，默认是localhost。这个地方你得填集群中所有节点可以访问的地址。
+jobmanager.rpc.address: 192.168.1.11
+# jobmanager端口号
+jobmanager.rpc.port: 6123
+
+# 一些大文件传输使用rpc传输不过来，此时就使用这个
+blob.server.port: 6122
+# 详情https://nightlies.apache.org/flink/flink-docs-release-1.16/zh/docs/deployment/memory/mem_setup_jobmanager/
+# 这个是jobmanager运行时总内存。我的服务器太小了。
+jobmanager.memory.process.size: 1024m
+# metaspace元空间
+jobmanager.memory.jvm-metaspace.size: 256m
+
+# 默认并行度
+parallelism.default: 1
+
+akka.ask.timeout: 480s
+heartbeat.timeout: 480000
+
+# 状态后端，哥们没hadoop集群，直接用minio作为状态后端持久化了。
+state.backend: filesystem
+# checkpoints的地址
+state.checkpoints.dir: s3://flink-backend/checkpoints/
+# savepoints的地址
+state.savepoints.dir: s3://flink-backend/savepoints/
+# checkpoints基本间隔设置。
+execution.checkpointing.interval: 500
+
+# 允许通过Flink UI上传和启动作业（默认为 true）
+web.submit.enable: true
+# 允许通过Flink UI 取消作业（默认为 true）。
+web.cancel.enable: true
+# 存储上传作业的目录。
+web.upload.dir: /opt/flink/user-upload-temp
+
+# s3相关的东西，minio自己先安装好，桶权限设置好
+s3.endpoint: http://192.168.116.11:9000
+s3.path.style.access: true
+s3.access-key: minio
+s3.secret-key: xxxxxxmima
+
+jobmanager.execution.failover-strategy: region

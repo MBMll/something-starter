@@ -1,0 +1,46 @@
+# jobmanager的地址
+# 如果jobmanager和taskmanager不在一台主机上，呢就要填写IP地址了
+jobmanager.rpc.address: 192.168.1.11
+# jobmanager端口号
+jobmanager.rpc.port: 6123
+
+# 这里写死taskmanager.host，这个地方你得填集群中所有节点可以访问的地址。
+taskmanager.host: 192.168.1.11
+#数据端口为6124
+taskmanager.data.port: 6124
+#RPC端口为6125
+taskmanager.rpc.port: 6125
+
+metrics.internal.query-service.port: 6126,6126
+
+# 详情https://nightlies.apache.org/flink/flink-docs-release-1.16/zh/docs/deployment/memory/mem_setup_tm/
+
+# 这个是taskmanager运行时总内存
+taskmanager.memory.process.size: 1024m
+# metaspace元空间
+taskmanager.memory.jvm-metaspace.size: 256m
+taskmanager.memory.managed.fraction: 0.05
+# 默认并行度
+parallelism.default: 1
+# 插槽数量
+taskmanager.numberOfTaskSlots: 4
+
+akka.ask.timeout: 480s
+heartbeat.timeout: 480000
+
+# 状态后端
+state.backend: filesystem
+# checkpoints的地址
+state.checkpoints.dir: s3://flink-backend/checkpoints/
+# savepoints的地址
+state.savepoints.dir: s3://flink-backend/savepoints/
+# checkpoints基本间隔设置
+execution.checkpointing.interval: 500
+
+# s3相关的东西
+s3.endpoint: http://192.168.116.11:9000
+s3.path.style.access: true
+s3.access-key: minio
+s3.secret-key: xxxxxxmima
+
+jobmanager.execution.failover-strategy: region

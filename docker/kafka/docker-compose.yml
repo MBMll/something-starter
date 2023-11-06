@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  kafka:
+    image: bitnami/kafka
+    container_name: kafka
+    environment:
+      KAFKA_BROKER_ID: 0
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.60:9092
+      KAFKA_CREATE_TOPICS: "xlc:2:0"   #kafka启动后初始化一个有2个partition(分区)0个副本名叫 xlc 的 topic
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_HOST_NAME: 182.92.217.111   ## 修改:宿主机IP
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_LOG_RETENTION_HOURS: 120
+      KAFKA_MESSAGE_MAX_BYTES: 10000000
+      KAFKA_REPLICA_FETCH_MAX_BYTES: 10000000
+      KAFKA_GROUP_MAX_SESSION_TIMEOUT_MS: 60000
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_DELETE_RETENTION_MS: 1000
+    restart: always
+    volumes:
+      - ./kafka-logs:/kafka
+    ports:
+      - 9092:9092
+    expose:
+      - 8080
+      - 50000
+    privileged: true
+    user: root
+  kafka-manager:
+    image: sheepkiller/kafka-manager
+    environment:
+      ## 修改:宿主机IP
+      ZK_HOSTS: 182.92.217.111
+    ports:
+      - "9001:9000"
+# docker-compose up -d
