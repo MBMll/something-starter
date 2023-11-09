@@ -50,6 +50,7 @@ public class CollectionUtils {
     }
 
     /**
+     * Create the function because key cannot be null on {@link Collectors#groupingBy(Function)}.
      * @param sources
      * @param classifier
      * @param <T>
