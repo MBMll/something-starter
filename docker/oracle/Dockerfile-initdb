@@ -1,0 +1,61 @@
+FROM truevoly/oracle-12c
+
+MAINTAINER xlc
+
+WORKDIR /
+
+# 用户
+USER oracle
+RUN $ORACLE_HOME/bin/sqlplus / as sysdba
+RUN ALTER PROFILE DEFAULT LIMIT PASSWORD_LIFE_TIME UNLIMITED;
+RUN alter user SYSTEM account unlock;
+RUN archive log list
+#Automatic archival是Disabled状态，因为Oracle默认是不开启自动归档的
+ #开启自动归档
+ #以DBA的身份连接数据库
+RUN conn /as sysdba
+#关闭数据库
+RUN shutdown immediate
+#启动并装载数据库，但没有打开数据文件，该命令常用来修改数据库运行模式或恢复数据库。执行命令：
+RUN startup mount
+#执行开启归档命令：
+RUN alter database archivelog;
+#执行打开数据库命令
+RUN alter database open;
+#执行自动归档命令：
+RUN alter system archive log start;
+#验证是否开启自动归档成功
+ #执行归档查询命令：
+RUN archive log list
+#验证数据库是否开启辅助日志和补充日志
+ #执行SQL语句验证：
+RUN select force_logging,supplemental_log_data_min from v$database;
+#当显示NO的时候表示没有开启，需要调整
+ #开启数据库的辅助日志和补充日志
+ #开启强制日志后数据库会记录除临时表空间或临时回滚段外所有的操作
+RUN alter database force logging;
+#开启辅助日志命令
+RUN alter database add supplemental log data;
+#开启主键附加日志命令：
+RUN alter database add supplemental log data (primary key) columns;
+#开启全列附加日志命令：
+RUN alter database add supplemental log data (all) columns;
+#检查数据库是否成功开启辅助日志和补充日志
+ #执行SQL语句验证：
+RUN select force_logging,supplemental_log_data_min from v$database;
+
+# 安装OGG源端
+USER root
+
+RUN mkdir /u01/app/ogg/src
+
+USER oracle
+
+ENV OGG_SRC_HOME=/u01/app/ogg/src
+ENV LD_LIBRARY_PATH=$ORACLE_HOME/lib:/usr/lib
+
+RUN LD_LIBRARY_PATH=$ORACLE_HOME/lib:/usr/lib
+RUN
+RUN
+
+EXPOSE 1521

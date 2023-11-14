@@ -20,6 +20,7 @@
         <module>minio-example</module>
         <module>swagger-example</module>
         <module>cdc-example</module>
+        <module>realtime-api-example</module>
     </modules>
 
     <properties>

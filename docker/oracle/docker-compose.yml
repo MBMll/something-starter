@@ -2,7 +2,9 @@ version: '3'
 
 services:
   orcl-1:
-    image: truevoly/oracle-12c
+    #    image: truevoly/oracle-12c
+    build:
+      dockerfile: Dockerfile-initdb
     restart: always
     container_name: orcl12c-1
     hostname: orcl-1
@@ -10,7 +12,6 @@ services:
     ports:
       - 1521:1521
     #      - 8080:8080
-
     # 查找 Oracle 镜像版本
     #    docker search oracle
 

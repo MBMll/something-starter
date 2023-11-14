@@ -11,7 +11,7 @@
     <name>cdc-example</name>
 
     <modules>
-        <module>realtime-example</module>
+        <module>flink-cdc-example</module>
     </modules>
 
     <properties>
