@@ -1,4 +1,4 @@
-package org.github.mbmll.starters.utils.common;
+package com.github.mbmll.concept;
 
 import java.util.Objects;
 

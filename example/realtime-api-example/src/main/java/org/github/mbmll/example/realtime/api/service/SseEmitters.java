@@ -1,9 +1,9 @@
 package org.github.mbmll.example.realtime.api.service;
 
+import com.github.mbmll.concept.ExceptionConsumer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.github.mbmll.starters.utils.common.ExceptionConsumer;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Slf4j
