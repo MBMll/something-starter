@@ -1,7 +1,7 @@
 package org.github.mbmll.examples.i18n;
 
 import lombok.extern.slf4j.Slf4j;
-import org.github.mbmll.starters.appllication.context.ApplicationContextUtil;
+import org.github.mbmll.starters.appllication.context.ApplicationContextCompoment;
 import org.github.mbmll.starters.i18n.I18nUtil;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +21,11 @@ public class DemoController {
 
     @GetMapping("t1")
     public DemoEntity hello(String name) throws Exception {
-        LocaleResolver bean = ApplicationContextUtil.getBean(LocaleResolver.class);
-        MessageSource messageSource = ApplicationContextUtil.getBean(MessageSource.class);
-        I18nUtil i18nUtil = ApplicationContextUtil.getBean(I18nUtil.class);
+        LocaleResolver bean = ApplicationContextCompoment.getBean(LocaleResolver.class);
+        MessageSource messageSource = ApplicationContextCompoment.getBean(MessageSource.class);
+        I18nUtil i18nUtil = ApplicationContextCompoment.getBean(I18nUtil.class);
         log.debug("{} {} {}", bean, i18nUtil, messageSource);
-        I18nTestUtil i18nTestUtil = ApplicationContextUtil.getBean(I18nTestUtil.class);
+        I18nTestUtil i18nTestUtil = ApplicationContextCompoment.getBean(I18nTestUtil.class);
         log.debug("{}", i18nTestUtil);
         return DemoEntity.builder().name(name + ": " + I18nUtil.getMessage("message.number.invalid")).build();
     }

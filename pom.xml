@@ -10,16 +10,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>decorated-response-body-starter</module>
-        <module>log-aspect-starter</module>
-        <module>i18n-starter</module>
-        <module>application-context-starter</module>
-        <module>exception-handler-starter</module>
-        <module>minio-starter</module>
-        <module>captcha-starter</module>
         <module>utils</module>
-        <module>multiply-thread-transaction-starter</module>
-        <module>kafka-starter</module>
+        <module>starter</module>
     </modules>
 
     <properties>
