@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 public class SseEmitters {
     private static final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
 
-    public void subscribe(String key) {
+    public static SseEmitter subscribe(String key) {
         SseEmitter emitter = new SseEmitter();
 
         emitter.onCompletion(() -> {
@@ -22,10 +22,10 @@ public class SseEmitters {
             emitter.complete();
             emitters.remove(key);
         });
-
+        return emitter;
     }
 
-    public void send(String key, ExceptionConsumer<SseEmitter, Exception> consumer) {
+    public static void send(String key, ExceptionConsumer<SseEmitter, Exception> consumer) {
         SseEmitter emitter = emitters.get(key);
         if (emitter == null) {
             subscribe(key);
