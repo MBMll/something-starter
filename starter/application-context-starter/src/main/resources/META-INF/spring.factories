@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    org.github.mbmll.starters.appllication.context.ApplicationContextCompoment
+    org.github.mbmll.starters.appllication.context.ApplicationContextComponent

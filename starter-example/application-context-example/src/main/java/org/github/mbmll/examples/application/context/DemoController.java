@@ -1,6 +1,6 @@
 package org.github.mbmll.examples.application.context;
 
-import org.github.mbmll.starters.appllication.context.ApplicationContextCompoment;
+import org.github.mbmll.starters.appllication.context.ApplicationContextComponent;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +17,7 @@ public class DemoController {
 
     @GetMapping("t1")
     public DemoEntity hello(String name) {
-        LocaleResolver bean = ApplicationContextCompoment.getBean(LocaleResolver.class);
+        LocaleResolver bean = ApplicationContextComponent.getBean(LocaleResolver.class);
         return DemoEntity.builder().name(name).build();
     }
 
