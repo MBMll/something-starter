@@ -8,6 +8,8 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
+    <groupId>org.github.mbmll.utils</groupId>
+    <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>utils</artifactId>
     <packaging>pom</packaging>

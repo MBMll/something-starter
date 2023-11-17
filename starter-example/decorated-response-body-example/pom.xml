@@ -4,16 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>starter-example</artifactId>
-        <groupId>org.github.mbmll</groupId>
+        <groupId>org.github.mbmll.example</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>i18n-example</artifactId>
+    <artifactId>decorated-response-body-example</artifactId>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -21,23 +19,37 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.github.mbmll</groupId>
-            <artifactId>i18n-starter</artifactId>
+            <groupId>org.github.mbmll.starter</groupId>
+            <artifactId>decorated-response-body-starter</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.github.mbmll</groupId>
-            <artifactId>application-context-starter</artifactId>
+            <groupId>org.github.mbmll.starter</groupId>
+            <artifactId>log-aspect-starter</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>i18n-examples</finalName>
+        <plugins>
+            <!-- 资源插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <!-- if you want to change the delimiter, the 2 following elements must be set. -->
+                    <delimiters>
+                        <delimiter>@</delimiter>
+                    </delimiters>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>
