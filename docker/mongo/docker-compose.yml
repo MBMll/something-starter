@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  mongo:
+    build:
+      dockerfile: ./Dockerfile
+    container_name: mongo
+    hostname: "mongo"
+    ports:
+      - 27017:27017 # api 端口
+#    environment:
+    volumes:
+      - ./data:/data/db               #映射当前目录下的data目录至容器内/data目录
+    privileged: true
+    restart: always
