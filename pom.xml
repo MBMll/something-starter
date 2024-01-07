@@ -21,7 +21,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- framework -->
-        <spring-boot.version>2.5.14</spring-boot.version>
+        <!--        <spring-boot.version>2.5.14</spring-boot.version>-->
+        <spring-boot.version>3.0.7</spring-boot.version>
         <mybatis-spring-boot-starter.version>2.2.2</mybatis-spring-boot-starter.version>
         <!-- feature -->
         <opencsv.version>5.4</opencsv.version>
