@@ -1,0 +1,24 @@
+FROM truevoly/oracle-12c
+
+MAINTAINER xlc
+
+
+ENV tz=Asia/Shanghai
+ENV dbca_total_memory=16192
+ENV import_from_volume=true
+
+COPY ./init.d/ /docker-entrypoint-initdb.d
+
+WORKDIR /
+
+# 用户
+#USER oracle
+#RUN $ORACLE_HOME/bin/sqlplus / as sysdba
+#RUN sqlplus / as sysdba
+#RUN
+#Automatic archival是Disabled状态，因为Oracle默认是不开启自动归档的
+ #开启自动归档
+ #以DBA的身份连接数据库
+RUN #conn /as sysdba
+
+EXPOSE 1521

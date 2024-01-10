@@ -2,13 +2,15 @@ version: '3'
 
 services:
   orcl-1:
-    image: truevoly/oracle-12c
-    #    build:
-    #      dockerfile: Dockerfile-initdb
+    #    image: truevoly/oracle-12c
+    build:
+      dockerfile: Dockerfile-initdb
     restart: always
     container_name: orcl12c-1
     hostname: orcl-1
     privileged: false
+    volumes:
+      - ./data_temp/:/home/oracle/data_temp
     ports:
       - 1521:1521
     #      - 8080:8080
