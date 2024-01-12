@@ -20,3 +20,9 @@ grant create session,connect,resource,dba to TEST;
 imp TEST/123 file = /data_20181210.dmp full=y;
 
 ```
+
+### issue
+#### 当存在 oracledata, 报错 ORA-12547: TNS:lost contact
+#### 初始化 sql: ORA-01659: unable to allocate MINEXTENTS beyond 4 in tablespace PGKF
+#### 采用 Dockerfile build 太慢,太大
+#### tomcat 访问
