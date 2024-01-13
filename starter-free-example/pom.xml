@@ -12,6 +12,7 @@
     <groupId>org.github.mbmll.example</groupId>
     <artifactId>starter-free-example</artifactId>
     <packaging>pom</packaging>
+
     <modules>
         <module>elastic-search-example</module>
         <module>sprig-batch-example</module>
