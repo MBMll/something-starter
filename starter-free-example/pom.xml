@@ -16,6 +16,7 @@
     <modules>
         <module>elastic-search-example</module>
         <module>sprig-batch-example</module>
+        <module>flink-example</module>
     </modules>
 
 </project>
