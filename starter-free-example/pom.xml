@@ -17,6 +17,7 @@
         <module>elastic-search-example</module>
         <module>sprig-batch-example</module>
         <module>flink-example</module>
+        <module>spring-cloud-k8s-example</module>
     </modules>
 
 </project>

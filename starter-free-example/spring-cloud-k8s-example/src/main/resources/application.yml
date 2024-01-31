@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    kubernetes:
+      leader:
+        # Role to which leader election this instance will participate
+        role: world
+        # Configmap to which leader election metadata will be saved
+        config-map-name: leader
