@@ -1,0 +1,12 @@
+version: '3'
+services:
+  ##redis配置
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: redis-server --appendonly yes --requirepass "123456"
+    ports:
+      - 6379:6379
+    volumes:
+      ##数据目录，要确保先创建好
+      - ./data/:/data/
