@@ -10,6 +10,8 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 
+import static com.github.mbmll.authorization.configuration.Constant.REDIS_TEMPLATE_REGISTERED_CLIENT_BEAN_NAME;
+
 /**
  * @Author xlc
  * @Description
@@ -39,7 +41,7 @@ public class RedisTemplateConfig {
         Jackson2JsonRedisSerializer<RegisteredClient> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(
                 RegisteredClient.class);
 
-        jackson2JsonRedisSerializer.setObjectMapper(ObjectMapperUtils.redis());
+//        jackson2JsonRedisSerializer.setObjectMapper(ObjectMapperUtils.redis());
 
         // Redis 字符串：键、值序列化
         template.setKeySerializer(new StringRedisSerializer());

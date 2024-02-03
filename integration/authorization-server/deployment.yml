@@ -54,3 +54,30 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   hostPath:
     path: /root/data
+
+---
+
+# 新建 PV 配置文件
+# vi mysql-pv.yaml
+
+# mysql-pv.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+  labels:
+    pv: mysql-pv
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /root/data
+
+# 创建PV
+# kubectl create -f mysql-pv.yaml
+# 检验
+# kubectl get pv
+

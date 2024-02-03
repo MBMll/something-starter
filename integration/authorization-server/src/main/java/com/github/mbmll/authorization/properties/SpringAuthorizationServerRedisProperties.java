@@ -1,4 +1,4 @@
-package com.github.mbmll.authorization;
+package com.github.mbmll.authorization.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

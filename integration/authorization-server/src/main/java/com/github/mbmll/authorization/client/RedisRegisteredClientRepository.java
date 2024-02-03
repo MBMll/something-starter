@@ -1,7 +1,7 @@
 package com.github.mbmll.authorization.client;
 
-import com.github.mbmll.authorization.SpringAuthorizationServerRedisProperties;
 import com.github.mbmll.authorization.builder.RedisKeyBuilder;
+import com.github.mbmll.authorization.properties.SpringAuthorizationServerRedisProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
