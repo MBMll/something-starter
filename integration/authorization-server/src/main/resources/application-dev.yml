@@ -1,9 +1,9 @@
-server:
-  port: 9000
+
+logging:
+  level:
+    org.springframework.security: trace
 
 spring:
-  profiles:
-    active: @env@
   security:
     oauth2:
       authorizationserver:

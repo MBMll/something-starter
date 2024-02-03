@@ -5,3 +5,4 @@ maven 初始化
 mvn archetype:generate "-DgroupId=com.github.mbmll.authorization" "-DartifactId=authorization-server" 
 "-DarchetypeArtifactId=maven-archetype-quickstart" "-DinteractiveMode=false"
 ```
+
