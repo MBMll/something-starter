@@ -63,9 +63,8 @@ public class RedisTemplateConfig {
         template.setConnectionFactory(redisConnectionFactory);
 
         // 可以使用读写JSON
-        Jackson2JsonRedisSerializer<RegisteredClient> jackson2JsonRedisSerializer =
-                new Jackson2JsonRedisSerializer<>(redisObjectMapper(),
-                        RegisteredClient.class);
+        Jackson2JsonRedisRegisteredClientSerializer jackson2JsonRedisSerializer =
+                new Jackson2JsonRedisRegisteredClientSerializer(redisObjectMapper());
 
         // Redis 字符串：键、值序列化
         template.setKeySerializer(new StringRedisSerializer());
@@ -124,18 +123,19 @@ public class RedisTemplateConfig {
         javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(NORM_DATE_PATTERN)));
         javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(NORM_TIME_PATTERN)));
         // @formatter:on
-
-        // 添加 OAuth 2.1 的反序列化
-        var simpleModule = new SimpleModule();
-        simpleModule.addDeserializer(ClientAuthenticationMethod.class, new ClientAuthenticationMethodDeserializer());
-        simpleModule.addDeserializer(AuthorizationGrantType.class, new AuthorizationGrantTypeDeserializer());
-        simpleModule.addDeserializer(ClientSettings.class, new ClientSettingsDeserializer());
-        simpleModule.addDeserializer(TokenSettings.class, new TokenSettingsDeserializer());
-        simpleModule.addDeserializer(OAuth2Authorization.class, new OAuth2AuthorizationDeserializer());
-        simpleModule.addDeserializer(OAuth2AuthorizationConsent.class, new OAuth2AuthorizationConsentDeserializer());
+//
+//        // 添加 OAuth 2.1 的反序列化
+//        var simpleModule = new SimpleModule();
+//        simpleModule.addDeserializer(ClientAuthenticationMethod.class, new ClientAuthenticationMethodDeserializer());
+//        simpleModule.addDeserializer(AuthorizationGrantType.class, new AuthorizationGrantTypeDeserializer());
+//        simpleModule.addDeserializer(ClientSettings.class, new ClientSettingsDeserializer());
+//        simpleModule.addDeserializer(TokenSettings.class, new TokenSettingsDeserializer());
+//        simpleModule.addDeserializer(OAuth2Authorization.class, new OAuth2AuthorizationDeserializer());
+//        simpleModule.addDeserializer(OAuth2AuthorizationConsent.class, new OAuth2AuthorizationConsentDeserializer());
 
         // 用于注册可以扩展该映射器提供的功能的模块的方法; 例如，通过添加自定义序列化程序和反序列化程序的提供程序。
-        objectMapper.registerModules(javaTimeModule, simpleModule);
+//        objectMapper.registerModules(javaTimeModule, simpleModule);
+        objectMapper.registerModules(javaTimeModule);
 
         return objectMapper;
     }
