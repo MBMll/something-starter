@@ -16,6 +16,8 @@ import org.springframework.security.oauth2.server.authorization.settings.OAuth2T
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.util.Assert;
 
+import java.util.Set;
+
 /**
  * refer to {@link org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository}
  * @Author xlc
@@ -65,12 +67,12 @@ public class Jackson2JsonRedisRegisteredClientSerializer implements RedisSeriali
                     .clientSecret(e.getClientSecret())
                     .clientSecretExpiresAt(e.getClientSecretExpiresAt())
                     .clientName(e.getClientName())
-                    .clientAuthenticationMethods((authenticationMethods) -> {
+                    .clientAuthenticationMethods((Set<ClientAuthenticationMethod> authenticationMethods) -> {
                         for (ClientAuthenticationMethodEntity entity : e.getClientAuthenticationMethods()) {
                             authenticationMethods.add(new ClientAuthenticationMethod(entity.getValue()));
                         }
                     })
-                    .authorizationGrantTypes((grantTypes) -> {
+                    .authorizationGrantTypes((Set<AuthorizationGrantType> grantTypes) -> {
                         for (AuthorizationGrantTypeEntity entity : e.getAuthorizationGrantTypes()) {
                             grantTypes.add(new AuthorizationGrantType(entity.getValue()));
                         }
