@@ -1,4 +1,4 @@
-package com.github.mbmll.authorization.configuration;
+package com.github.mbmll.authorization.serializer;
 
 import lombok.Data;
 
