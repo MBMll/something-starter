@@ -9,8 +9,8 @@ import org.springframework.security.oauth2.server.authorization.client.JdbcRegis
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 
 import javax.sql.DataSource;
-
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 /**
  * 只是简单对数据库做了包装,加了 redis 做缓存
@@ -52,27 +52,22 @@ public class RedisRegisteredClientRepository extends JdbcRegisteredClientReposit
 
     @Override
     public RegisteredClient findById(String id) {
-        String prefix = springAuthorizationServerRedisProperties.getPrefix();
-        RegisteredClient registeredClientByRedis = redisTemplate.opsForValue().get(
-                RedisKeyBuilder.join(prefix, REGISTERED_CLIENT_ID, id));
-        if (registeredClientByRedis == null) {
-            registeredClientByRedis = super.findById(id);
-            log.debug("根据 id：{} 直接查询数据库中的客户：{}", id, registeredClientByRedis);
-            if (registeredClientByRedis != null) {
-                setRegisteredClient(registeredClientByRedis);
-            }
-        }
-        return registeredClientByRedis;
+        return getRegisteredClient(REGISTERED_CLIENT_ID, id, () -> super.findById(id));
     }
 
     @Override
     public RegisteredClient findByClientId(String clientId) {
+        return getRegisteredClient(REGISTERED_CLIENT_CLIENT_ID, clientId, () -> super.findByClientId(clientId));
+    }
+
+    private RegisteredClient getRegisteredClient(String key,
+                                                 String id,
+                                                 Supplier<RegisteredClient> supplier) {
         String prefix = springAuthorizationServerRedisProperties.getPrefix();
-        RegisteredClient registeredClient = redisTemplate.opsForValue().get(
-                RedisKeyBuilder.join(prefix, REGISTERED_CLIENT_CLIENT_ID, clientId));
+        var registeredClient = redisTemplate.opsForValue().get(RedisKeyBuilder.join(prefix, key, id));
         if (registeredClient == null) {
-            registeredClient = super.findByClientId(clientId);
-            log.debug("根据 clientId：{} 直接查询数据库中的客户：{}", clientId, registeredClient);
+            registeredClient = supplier.get();
+            log.debug("根据 clientId：{} 直接查询数据库中的客户：{}", id, registeredClient);
             if (registeredClient != null) {
                 setRegisteredClient(registeredClient);
             }
