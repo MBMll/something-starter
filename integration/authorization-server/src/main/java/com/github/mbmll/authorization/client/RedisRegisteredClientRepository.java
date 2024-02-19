@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.server.authorization.client.JdbcRegis
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 
 import javax.sql.DataSource;
+import java.util.StringJoiner;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
@@ -35,7 +36,8 @@ public class RedisRegisteredClientRepository extends JdbcRegisteredClientReposit
     /**
      * Constructs a {@code JdbcRegisteredClientRepository} using the provided parameters.
      */
-    public RedisRegisteredClientRepository(DataSource dataSource, RedisTemplate<String, RegisteredClient> redisTemplate,
+    public RedisRegisteredClientRepository(DataSource dataSource,
+                                           RedisTemplate<String, RegisteredClient> redisTemplate,
                                            SpringAuthorizationServerRedisProperties springAuthorizationServerRedisProperties) {
         super(new JdbcTemplate(dataSource));
         this.redisTemplate = redisTemplate;
@@ -60,11 +62,12 @@ public class RedisRegisteredClientRepository extends JdbcRegisteredClientReposit
         return getRegisteredClient(REGISTERED_CLIENT_CLIENT_ID, clientId, () -> super.findByClientId(clientId));
     }
 
-    private RegisteredClient getRegisteredClient(String key,
-                                                 String id,
-                                                 Supplier<RegisteredClient> supplier) {
+    private RegisteredClient getRegisteredClient(String key, String id, Supplier<RegisteredClient> supplier) {
         String prefix = springAuthorizationServerRedisProperties.getPrefix();
-        var registeredClient = redisTemplate.opsForValue().get(RedisKeyBuilder.join(prefix, key, id));
+        var registeredClient =
+                redisTemplate.opsForValue().get(new StringJoiner(
+                        SpringAuthorizationServerRedisProperties.REIDS_KEY_DELIMITER)
+                        .add(prefix).add(key).add(id).toString());
         if (registeredClient == null) {
             registeredClient = supplier.get();
             log.debug("根据 clientId：{} 直接查询数据库中的客户：{}", id, registeredClient);
@@ -78,12 +81,10 @@ public class RedisRegisteredClientRepository extends JdbcRegisteredClientReposit
     public void setRegisteredClient(RegisteredClient registeredClient) {
         long registeredClientTimeout = springAuthorizationServerRedisProperties.getRegisteredClientTimeout();
         String prefix = springAuthorizationServerRedisProperties.getPrefix();
-        redisTemplate.opsForValue()
-                .set(RedisKeyBuilder.join(prefix, REGISTERED_CLIENT_ID, registeredClient.getId()), registeredClient,
-                        registeredClientTimeout, TimeUnit.SECONDS);
-        redisTemplate.opsForValue()
-                .set(RedisKeyBuilder.join(prefix, REGISTERED_CLIENT_CLIENT_ID, registeredClient.getClientId()),
-                        registeredClient, registeredClientTimeout, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(RedisKeyBuilder.join(prefix, REGISTERED_CLIENT_ID, registeredClient.getId()),
+                registeredClient, registeredClientTimeout, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(RedisKeyBuilder.join(prefix, REGISTERED_CLIENT_CLIENT_ID,
+                registeredClient.getClientId()), registeredClient, registeredClientTimeout, TimeUnit.SECONDS);
     }
 
 }

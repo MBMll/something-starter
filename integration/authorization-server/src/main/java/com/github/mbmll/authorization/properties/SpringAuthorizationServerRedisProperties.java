@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "spring.authorization-server.redis")
 public class SpringAuthorizationServerRedisProperties {
 
-	/**
+    public static final String REIDS_KEY_DELIMITER = ":";
+    /**
 	 * Redis key 前缀
 	 */
 	private String prefix = "spring-authorization-server";
