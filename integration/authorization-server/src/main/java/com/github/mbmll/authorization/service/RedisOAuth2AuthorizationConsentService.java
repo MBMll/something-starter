@@ -46,14 +46,18 @@ public class RedisOAuth2AuthorizationConsentService extends JdbcOAuth2Authorizat
     public void remove(OAuth2AuthorizationConsent authorizationConsent) {
         super.remove(authorizationConsent);
         if (authorizationConsent != null) {
-            redisTemplate.opsForValue().getAndDelete(buildKeyRegisteredClientId(authorizationConsent.getRegisteredClientId()));
+            redisTemplate.opsForValue().getAndDelete(
+                    buildKeyRegisteredClientId(authorizationConsent.getRegisteredClientId()));
         }
     }
 
     @Override
     public OAuth2AuthorizationConsent findById(String registeredClientId, String principalName) {
-        OAuth2AuthorizationConsent oAuth2AuthorizationConsent = redisTemplate.opsForValue().get(buildKeyRegisteredClientId(registeredClientId));
-
+        OAuth2AuthorizationConsent oAuth2AuthorizationConsent =
+                redisTemplate.opsForValue().get(buildKeyRegisteredClientId(registeredClientId));
+        if (oAuth2AuthorizationConsent != null) {
+            return oAuth2AuthorizationConsent;
+        }
         return super.findById(registeredClientId, principalName);
     }
 
@@ -65,10 +69,8 @@ public class RedisOAuth2AuthorizationConsentService extends JdbcOAuth2Authorizat
 
     private String buildKeyRegisteredClientId(String registeredClientId) {
         String prefix = springAuthorizationServerRedisProperties.getPrefix();
-        return new StringJoiner(
-                SpringAuthorizationServerRedisProperties.REIDS_KEY_DELIMITER)
-                .add(prefix).add(OAUTH2_AUTHORIZATION_CONSENT)
-                .add(registeredClientId)
+        return new StringJoiner(SpringAuthorizationServerRedisProperties.REIDS_KEY_DELIMITER)
+                .add(prefix).add(OAUTH2_AUTHORIZATION_CONSENT).add(registeredClientId)
                 .toString();
     }
 }
