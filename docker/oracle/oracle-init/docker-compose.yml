@@ -11,6 +11,12 @@ services:
     privileged: false
     volumes:
       - ./data_temp/:/home/oracle/data_temp
+    environment:
+      tz: Asia/Shanghai
+      dbca_total_memory: 16192
+      import_from_volume: true
+    command:
+      -
     ports:
       - 1521:1521
     #      - 8080:8080
