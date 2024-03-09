@@ -26,6 +26,11 @@
             <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.kafka</groupId>-->
+<!--            <artifactId>kafka-clients</artifactId>-->
+<!--            <version>7.2.2-ccs</version>-->
+<!--        </dependency>-->
     </dependencies>
 
 
