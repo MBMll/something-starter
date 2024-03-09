@@ -13,18 +13,31 @@ import java.util.Set;
  */
 @Data
 public class RegisteredClientEntity implements Serializable {
-    private String id;
-    private String clientId;
-    private Instant clientIdIssuedAt;
-    private String clientSecret;
-    private Instant clientSecretExpiresAt;
-    private String clientName;
-    private Set<ClientAuthenticationMethodEntity> clientAuthenticationMethods;
-    private Set<AuthorizationGrantTypeEntity> authorizationGrantTypes;
-    private Set<String> redirectUris;
-    private Set<String> postLogoutRedirectUris;
-    private Set<String> scopes;
-    private ClientSettingsEntiy clientSettings;
-    private TokenSettingsEntity tokenSettings;
-}
 
+	private String id;
+
+	private String clientId;
+
+	private Instant clientIdIssuedAt;
+
+	private String clientSecret;
+
+	private Instant clientSecretExpiresAt;
+
+	private String clientName;
+
+	private Set<ClientAuthenticationMethodEntity> clientAuthenticationMethods;
+
+	private Set<AuthorizationGrantTypeEntity> authorizationGrantTypes;
+
+	private Set<String> redirectUris;
+
+	private Set<String> postLogoutRedirectUris;
+
+	private Set<String> scopes;
+
+	private ClientSettingsEntiy clientSettings;
+
+	private TokenSettingsEntity tokenSettings;
+
+}

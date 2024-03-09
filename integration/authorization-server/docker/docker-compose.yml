@@ -1,0 +1,30 @@
+version: '3'
+services:
+  ##redis配置
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: redis-server --appendonly yes --requirepass "123456"
+    ports:
+      - 6379:6379
+    volumes:
+      ##数据目录，要确保先创建好
+      - ./redis/data/:/data/
+  ##mysql配置
+  mysql:
+    image: docker.io/mysql:latest
+    environment:
+      ##root账号的密码
+      MYSQL_ROOT_PASSWORD: 123456
+#      MYSQL_DATABASE: authorization
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: mysql
+    restart: always
+    ##映射挂载
+    volumes:
+      ##数据目录，要确保先创建好
+#      - ./mysql/data/:/var/lib/mysql/
+      ##初始化的脚本，初始化我们存放的init.sql文件
+      - ./mysql/resource/init/:/docker-entrypoint-initdb.d/
+    ports:
+      - 3306:3306

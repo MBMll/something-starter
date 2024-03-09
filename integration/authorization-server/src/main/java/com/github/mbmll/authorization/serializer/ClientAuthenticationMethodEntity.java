@@ -6,5 +6,7 @@ import java.io.Serializable;
 
 @Data
 public class ClientAuthenticationMethodEntity implements Serializable {
-    private String value;
+
+	private String value;
+
 }

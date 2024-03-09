@@ -17,60 +17,65 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class RedisOAuth2AuthorizationConsentService extends JdbcOAuth2AuthorizationConsentService {
-    /**
-     * 查询时放入Redis中的部分 key
-     */
-    public static final String OAUTH2_AUTHORIZATION_CONSENT = "oauth2_authorization_consent";
-    private RedisTemplate<String, OAuth2AuthorizationConsent> redisTemplate;
-    private SpringAuthorizationServerRedisProperties springAuthorizationServerRedisProperties;
 
-    public RedisOAuth2AuthorizationConsentService(JdbcOperations jdbcOperations,
-                                                  RegisteredClientRepository registeredClientRepository,
-                                                  RedisTemplate<String, OAuth2AuthorizationConsent> redisTemplate,
-                                                  SpringAuthorizationServerRedisProperties springAuthorizationServerRedisProperties) {
-        super(jdbcOperations, registeredClientRepository);
-        this.redisTemplate = redisTemplate;
-        this.springAuthorizationServerRedisProperties = springAuthorizationServerRedisProperties;
-    }
+	/**
+	 * 查询时放入Redis中的部分 key
+	 */
+	public static final String OAUTH2_AUTHORIZATION_CONSENT = "oauth2_authorization_consent";
 
-    @Override
-    public void save(OAuth2AuthorizationConsent authorizationConsent) {
-        super.save(authorizationConsent);
-        if (authorizationConsent != null) {
-            save0(authorizationConsent);
-        }
-    }
+	private RedisTemplate<String, OAuth2AuthorizationConsent> redisTemplate;
 
+	private SpringAuthorizationServerRedisProperties springAuthorizationServerRedisProperties;
 
-    @Override
-    public void remove(OAuth2AuthorizationConsent authorizationConsent) {
-        super.remove(authorizationConsent);
-        if (authorizationConsent != null) {
-            redisTemplate.opsForValue().getAndDelete(
-                    buildKeyRegisteredClientId(authorizationConsent.getRegisteredClientId()));
-        }
-    }
+	public RedisOAuth2AuthorizationConsentService(JdbcOperations jdbcOperations,
+			RegisteredClientRepository registeredClientRepository,
+			RedisTemplate<String, OAuth2AuthorizationConsent> redisTemplate,
+			SpringAuthorizationServerRedisProperties springAuthorizationServerRedisProperties) {
+		super(jdbcOperations, registeredClientRepository);
+		this.redisTemplate = redisTemplate;
+		this.springAuthorizationServerRedisProperties = springAuthorizationServerRedisProperties;
+	}
 
-    @Override
-    public OAuth2AuthorizationConsent findById(String registeredClientId, String principalName) {
-        OAuth2AuthorizationConsent oAuth2AuthorizationConsent =
-                redisTemplate.opsForValue().get(buildKeyRegisteredClientId(registeredClientId));
-        if (oAuth2AuthorizationConsent != null) {
-            return oAuth2AuthorizationConsent;
-        }
-        return super.findById(registeredClientId, principalName);
-    }
+	@Override
+	public void save(OAuth2AuthorizationConsent authorizationConsent) {
+		super.save(authorizationConsent);
+		if (authorizationConsent != null) {
+			save0(authorizationConsent);
+		}
+	}
 
-    private void save0(OAuth2AuthorizationConsent authorizationConsent) {
-        long authorizationConsentTimeout = springAuthorizationServerRedisProperties.getAuthorizationConsentTimeout();
-        redisTemplate.opsForValue().set(buildKeyRegisteredClientId(authorizationConsent.getRegisteredClientId()),
-                authorizationConsent, authorizationConsentTimeout, TimeUnit.SECONDS);
-    }
+	@Override
+	public void remove(OAuth2AuthorizationConsent authorizationConsent) {
+		super.remove(authorizationConsent);
+		if (authorizationConsent != null) {
+			redisTemplate.opsForValue()
+				.getAndDelete(buildKeyRegisteredClientId(authorizationConsent.getRegisteredClientId()));
+		}
+	}
 
-    private String buildKeyRegisteredClientId(String registeredClientId) {
-        String prefix = springAuthorizationServerRedisProperties.getPrefix();
-        return new StringJoiner(SpringAuthorizationServerRedisProperties.REIDS_KEY_DELIMITER)
-                .add(prefix).add(OAUTH2_AUTHORIZATION_CONSENT).add(registeredClientId)
-                .toString();
-    }
+	@Override
+	public OAuth2AuthorizationConsent findById(String registeredClientId, String principalName) {
+		OAuth2AuthorizationConsent oAuth2AuthorizationConsent = redisTemplate.opsForValue()
+			.get(buildKeyRegisteredClientId(registeredClientId));
+		if (oAuth2AuthorizationConsent != null) {
+			return oAuth2AuthorizationConsent;
+		}
+		return super.findById(registeredClientId, principalName);
+	}
+
+	private void save0(OAuth2AuthorizationConsent authorizationConsent) {
+		long authorizationConsentTimeout = springAuthorizationServerRedisProperties.getAuthorizationConsentTimeout();
+		redisTemplate.opsForValue()
+			.set(buildKeyRegisteredClientId(authorizationConsent.getRegisteredClientId()), authorizationConsent,
+					authorizationConsentTimeout, TimeUnit.SECONDS);
+	}
+
+	private String buildKeyRegisteredClientId(String registeredClientId) {
+		String prefix = springAuthorizationServerRedisProperties.getPrefix();
+		return new StringJoiner(SpringAuthorizationServerRedisProperties.REIDS_KEY_DELIMITER).add(prefix)
+			.add(OAUTH2_AUTHORIZATION_CONSENT)
+			.add(registeredClientId)
+			.toString();
+	}
+
 }

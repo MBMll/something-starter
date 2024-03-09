@@ -12,11 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Jackson2JsonRedisRegisteredClientSerializerTest {
 
-    @Test
-    void serialize() {
-    }
+	@Test
+	void serialize() {
+	}
 
-    @Test
-    void deserialize() {
-    }
+	@Test
+	void deserialize() {
+	}
+
 }
