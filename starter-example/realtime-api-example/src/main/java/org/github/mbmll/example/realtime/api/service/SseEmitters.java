@@ -1,6 +1,6 @@
 package org.github.mbmll.example.realtime.api.service;
 
-import com.github.mbmll.concept.ExceptionConsumer;
+import com.github.mbmll.concept.ThrowableConsumer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ public class SseEmitters {
         return emitter;
     }
 
-    public static void send(String key, ExceptionConsumer<SseEmitter, Exception> consumer) {
+    public static void send(String key, ThrowableConsumer<SseEmitter, Exception> consumer) {
         SseEmitter emitter = emitters.get(key);
         if (emitter == null) {
             subscribe(key);
