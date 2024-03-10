@@ -4,17 +4,23 @@ logging:
     org.springframework.security: trace
 
 spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
   datasource:
     url: jdbc:mysql://localhost:3306/authorization?characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-  redis:
-    host: 127.0.0.1
-    port: 6379
-    password: 123456
-    database: 0
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 123456
+      database: 0
   security:
+    user:
+      name: mbmll
+      password: onaw912nd,
     oauth2:
       authorizationserver:
         client:
@@ -35,3 +41,17 @@ spring:
                 - "openid"
                 - "profile"
             require-authorization-consent: true
+
+
+# actuator 监控配置
+management:
+  #actuator端口 如果不配置做默认使用上面8080端口
+  server:
+    port: 9000
+  endpoints:
+    web:
+      exposure:
+        #默认值访问health,info端点  用*可以包含全部端点
+        include: "*"
+      #修改访问路径 2.0之前默认是/; 2.0默认是/actuator可以通过这个属性值修改
+      base-path: /actuator

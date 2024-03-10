@@ -13,19 +13,26 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
+import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
@@ -34,6 +41,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.time.Duration;
 import java.util.UUID;
 
 import static com.github.mbmll.authorization.configuration.Constant.REDIS_TEMPLATE_REGISTERED_CLIENT_BEAN_NAME;
@@ -81,10 +89,20 @@ public class SecurityConfig {
 	@Bean
 	public RegisteredClientRepository registeredClientRepository(DataSource dataSource,
 			@Qualifier(REDIS_TEMPLATE_REGISTERED_CLIENT_BEAN_NAME) RedisTemplate<String, RegisteredClient> redisTemplate,
-			SpringAuthorizationServerRedisProperties springAuthorizationServerRedisProperties,
-			RegisteredClient registeredClient) {
-		var registeredClientRepository = new RedisRegisteredClientRepository(dataSource, redisTemplate,
-				springAuthorizationServerRedisProperties);
+			SpringAuthorizationServerRedisProperties springAuthorizationServerRedisProperties) {
+		RedisRegisteredClientRepository registeredClientRepository = new RedisRegisteredClientRepository(dataSource,
+				redisTemplate, springAuthorizationServerRedisProperties);
+		RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+			.clientId("mbmll_default_client")
+			.clientSecret(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("123456"))
+			.clientName("mbmll_default_client")
+			.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+			.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+			.scope("all")
+			.tokenSettings(TokenSettings.builder().refreshTokenTimeToLive(Duration.ofDays(60)).build())
+			.clientSettings(ClientSettings.builder().requireAuthorizationConsent(false).build())
+			.build();
+
 		registeredClientRepository.setRegisteredClient(registeredClient);
 		return registeredClientRepository;
 	}

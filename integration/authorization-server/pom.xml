@@ -42,6 +42,10 @@
             <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.32</version>
@@ -55,6 +59,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.20</version>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -70,6 +75,15 @@
         </developer>
     </developers>
     <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <env>dev</env>
+            </properties>
+        </profile>
         <profile>
             <id>jdk17</id>
             <activation>
@@ -118,12 +132,21 @@
                 <version>0.0.40</version>
                 <executions>
                     <execution>
+                        <id>apply</id>
                         <phase>validate</phase>
                         <inherited>true</inherited>
                         <goals>
-                            <goal>validate</goal>
+                            <goal>apply</goal>
                         </goals>
                     </execution>
+<!--                    <execution>-->
+<!--                        <id>validate</id>-->
+<!--                        <phase>validate</phase>-->
+<!--                        <inherited>true</inherited>-->
+<!--                        <goals>-->
+<!--                            <goal>validate</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
                 </executions>
             </plugin>
             <!-- 资源插件 -->
