@@ -18,6 +18,7 @@
         <module>sprig-batch-example</module>
         <module>flink-example</module>
         <module>spring-cloud-k8s-example</module>
+        <module>rabbitmq-example</module>
     </modules>
 
 </project>
