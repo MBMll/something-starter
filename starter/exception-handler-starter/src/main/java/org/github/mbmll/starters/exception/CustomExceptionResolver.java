@@ -1,8 +1,9 @@
 package org.github.mbmll.starters.exception;
 
 import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
@@ -26,7 +27,7 @@ public class CustomExceptionResolver extends AbstractHandlerExceptionResolver {
 
     @Override
     protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
-        Exception ex) {
+                                              Exception ex) {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         try {
             response.getWriter().write(ex.getMessage());

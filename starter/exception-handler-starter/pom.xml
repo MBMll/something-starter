@@ -24,7 +24,6 @@
             <groupId>org.github.mbmll.starter</groupId>
             <artifactId>decorated-response-body-starter</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
