@@ -34,7 +34,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
-            <version>Hoxton.SR11</version>
+            <version>2.2.8.RELEASE</version>
         </dependency>
         <!-- 服务连接组件 -->
         <dependency>
@@ -65,4 +65,29 @@
     <!--            </dependency>-->
     <!--        </dependencies>-->
     <!--    </dependencyManagement>-->
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>spring</id>
+            <name>aliyun maven</name>
+            <url>https://maven.aliyun.com/repository/spring</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
