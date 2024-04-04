@@ -2,6 +2,8 @@ server:
   port: 8080
 
 spring:
+  application:
+    name: admin-server
   profiles:
     active: dev
   security:
@@ -12,3 +14,7 @@ spring:
     client:
       registration:
         message
+  could:
+    nacos:
+      discovery:
+        server-addr: localhost:8848

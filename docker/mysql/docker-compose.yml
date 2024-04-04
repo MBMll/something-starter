@@ -17,4 +17,4 @@ services:
       ##初始化的脚本，初始化我们存放的init.sql文件
       - ./resource/:/docker-entrypoint-initdb.d/
     ports:
-      - 3306:3306
+      - "3306:3306"

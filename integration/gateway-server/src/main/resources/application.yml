@@ -1,0 +1,21 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: admin
+          uri: lb://admin-service
+#          rule
+          predicates:
+            - Path=/admin/**
+#          filters:
+#            - StripPrefix=1
+  nacos:
+    discovery:
+      server-addr: localhost:8848
+      username: nacos
+      password: nacos

@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  ##mysql配置
+  mysql:
+    extends:
+      file: ./dockers/mysql/docker-compose.yml
+      service: mysql
+    hostname: mysql_host
+    networks:
+      - integration
+  nacos:
+    extends:
+      file: ./dockers/nacos/docker-compose.yml
+      service: nacos
+    build:
+       context: ./dockers/nacos/
+    depends_on:
+      mysql:
+        condition: service_healthy
+    hostname: nacos_host
+    networks:
+      - integration
+
+
+networks:
+  integration:
+    name: mbmll_host
+    driver: bridge

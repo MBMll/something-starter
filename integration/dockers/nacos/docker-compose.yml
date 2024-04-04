@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+  nacos:
+    image: nacos/nacos-server:1.4.2
+    container_name: nacos
+    ports:
+      - "8848:8848"
+    env_file:
+      - env/nacos-standlone-mysql.env
+    volumes:
+      - /dockers/nacos/data:/nacos/data
+      - /dockers/nacos/logs:/nacos/logs
+    hostname: nacos_host
