@@ -1,6 +1,9 @@
 package org.github.mbmll.example;
 
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 /**
  * @Author xlc
  * @Description
@@ -9,6 +12,6 @@ package org.github.mbmll.example;
 @SpringBootApplication
 public class GatewayApplication {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        SpringApplication.run(GatewayApplication.class, args);
     }
 }
