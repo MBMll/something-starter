@@ -1,4 +1,4 @@
-package org.github.mbmll.example.jdbc;
+package org.github.mbmll.example.flink.jdbc;
 
 /**
  * @Author xlc

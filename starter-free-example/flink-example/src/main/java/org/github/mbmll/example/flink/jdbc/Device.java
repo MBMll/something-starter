@@ -1,4 +1,4 @@
-package org.github.mbmll.example.jdbc;
+package org.github.mbmll.example.flink.jdbc;
 
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonPropertyOrder;
 

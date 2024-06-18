@@ -1,4 +1,4 @@
-package org.github.mbmll.example;
+package org.github.mbmll.example.flink;
 
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.utils.ParameterTool;

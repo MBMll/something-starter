@@ -1,4 +1,4 @@
-package org.github.mbmll.example.csv;
+package org.github.mbmll.example.flink.csv;
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.client.program.StreamContextEnvironment;
@@ -7,7 +7,7 @@ import org.apache.flink.core.fs.Path;
 import org.apache.flink.formats.csv.CsvReaderFormat;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.github.mbmll.example.jdbc.Device;
+import org.github.mbmll.example.flink.jdbc.Device;
 
 public class CsvDemo {
     public static void main(String[] args) throws Exception {
