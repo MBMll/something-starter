@@ -1,4 +1,5 @@
 ### copy common resources
+
 ```xml
 <build>
     <resources>
