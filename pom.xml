@@ -14,6 +14,9 @@
     </modules>
 
     <properties>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.compilerVersion>${java.version}</maven.compiler.compilerVersion>
         <!-- base config -->
         <skipTests>true</skipTests>
         <!-- encoding config -->
@@ -291,6 +294,15 @@
 
     <profiles>
         <profile>
+            <id>common-module</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>concept</module>
+            </modules>
+        </profile>
+        <profile>
             <id>dev</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -336,6 +348,19 @@
             </properties>
         </profile>
         <profile>
+            <id>jdk17</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <jdk>17</jdk>
+            </activation>
+            <properties>
+                <java.version>17</java.version>
+            </properties>
+            <modules>
+                <module>starter-free-example/h2-example</module>
+            </modules>
+        </profile>
+        <profile>
             <id>jdk-21</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
@@ -343,10 +368,10 @@
             </activation>
             <properties>
                 <java.version>21</java.version>
-                <maven.compiler.source>21</maven.compiler.source>
-                <maven.compiler.target>21</maven.compiler.target>
-                <maven.compiler.compilerVersion>21</maven.compiler.compilerVersion>
             </properties>
+            <modules>
+                <module>starter-free-example/h2-example</module>
+            </modules>
         </profile>
     </profiles>
 </project>

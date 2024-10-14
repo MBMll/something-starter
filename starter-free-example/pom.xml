@@ -20,6 +20,7 @@
         <module>spring-cloud-k8s-example</module>
         <module>rabbitmq-example</module>
         <module>quartz-example</module>
+        <module>h2-example</module>
     </modules>
 
 </project>

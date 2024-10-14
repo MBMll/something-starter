@@ -84,13 +84,6 @@
                 <env>dev</env>
             </properties>
         </profile>
-        <profile>
-            <id>jdk17</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <jdk>17</jdk>
-            </activation>
-        </profile>
     </profiles>
     <build>
         <finalName>${project.artifactId}</finalName>
