@@ -21,6 +21,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -74,47 +75,44 @@
             </resource>
         </resources>
         <plugins>
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-assembly-plugin</artifactId>-->
-            <!--                <version>3.6.0</version>-->
-            <!--                <configuration>-->
-            <!--                    <descriptors>-->
-            <!--                        <descriptor>src/main/assembly/assembly.xml</descriptor>-->
-            <!--                    </descriptors>-->
-            <!--                </configuration>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <id>assembly</id>-->
-            <!--                        <phase>package</phase>-->
-            <!--                        <goals>-->
-            <!--                            <goal>single</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <!--                <version>${maven-dependency-plugin.version}</version>-->
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!--                <configuration>-->
-                <!--                    <layout>ZIP</layout>-->
-                <!--                    <includes>-->
-                <!--                        <include>-->
-                <!--                            <groupId>non.exists</groupId>-->
-                <!--                            <artifactId>non-exists</artifactId>-->
-                <!--                        </include>-->
-                <!--                    </includes>-->
-                <!--                </configuration>-->
                 <executions>
                     <execution>
                         <goals>
                             <goal>repackage</goal>
                         </goals>
+                        <configuration>
+                            <layout>ZIP</layout>
+                            <excludes>
+                                <exclude>
+                                    <groupId>*</groupId>
+                                    <artifactId>*</artifactId>
+                                </exclude>
+                            </excludes>
+                            <classifier>exec</classifier>
+                            <mainClass>com.github.mbmll.example.assembly.Application</mainClass>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <mainClass>com.github.mbmll.example.assembly.Application</mainClass>
-                </configuration>
             </plugin>
         </plugins>
     </build>
