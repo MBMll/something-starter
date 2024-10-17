@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.mbmll.example</groupId>
-        <artifactId>starter-free-example</artifactId>
+        <artifactId>starter-example</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>assembly-plugin-example</artifactId>
+    <artifactId>jpa-example</artifactId>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <!--        <java.version>11</java.version>-->
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
         <dependency>
+            <groupId>com.github.mbmll</groupId>
+            <artifactId>concept</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -33,20 +35,30 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>runtime</scope>
+        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.hibernate</groupId>-->
+        <!--            <artifactId>hibernate-jpamodelgen</artifactId>-->
+        <!--            <version>6.1.7.Final</version>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen-jakarta</artifactId>
+            <version>5.6.15.Final</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.mbmll</groupId>
-            <artifactId>concept</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
+
 
     <build>
         <finalName>${project.artifactId}-${env}</finalName>
@@ -54,7 +66,8 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
-                    <include>application.yml</include>
+                    <include>application*.yml</include>
+                    <include>application-${env}.yml</include>
                 </includes>
                 <filtering>true</filtering>
             </resource>
@@ -77,8 +90,33 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <annotationProcessorPath>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </annotationProcessorPath>
+                        <path>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate-jpamodelgen-jakarta</artifactId>
+                            <version>5.6.15.Final</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <!-- 下面的方式找不到 jakarta/xml/bind/JAXBException -->
+                    <!--                    <annotationProcessors>-->
+                    <!--                        <annotationProcessor>-->
+                    <!--                            org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor-->
+                    <!--                        </annotationProcessor>-->
+                    <!--                    </annotationProcessors>-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <!--                <version>${maven-dependency-plugin.version}</version>-->
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -102,14 +140,14 @@
                         </goals>
                         <configuration>
                             <layout>ZIP</layout>
-                            <excludes>
-                                <exclude>
+                            <includes>
+                                <include>
                                     <groupId>*</groupId>
                                     <artifactId>*</artifactId>
-                                </exclude>
-                            </excludes>
+                                </include>
+                            </includes>
                             <classifier>exec</classifier>
-                            <mainClass>com.github.mbmll.example.assembly.Application</mainClass>
+                            <mainClass>com.github.mbmll.example.jpa.JpaApplication</mainClass>
                         </configuration>
                     </execution>
                 </executions>

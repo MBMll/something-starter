@@ -3,14 +3,14 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>something-starter</artifactId>
         <groupId>com.github.mbmll</groupId>
+        <artifactId>something-starter</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.github.mbmll.example</groupId>
+    <groupId>com.github.mbmll.example</groupId>
     <artifactId>starter-example</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -24,8 +24,19 @@
         <module>swagger-example</module>
         <module>cdc-example</module>
         <module>realtime-api-example</module>
+        <module>jpa-example</module>
     </modules>
 
     <properties>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.github.mbmll</groupId>
+                <artifactId>concept</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

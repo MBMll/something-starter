@@ -1,4 +1,4 @@
-package com.github.mbmll.example.assembly.entity;
+package com.github.mbmll.example.jpa.entity;
 
 import com.github.mbmll.concept.fields.Available;
 import jakarta.persistence.Entity;
@@ -29,3 +29,4 @@ public class H2Material implements Available<Long, Date, Boolean> {
     private Date updateTime;
     private Boolean deleted;
 }
+

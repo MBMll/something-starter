@@ -9,7 +9,7 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.github.mbmll.example</groupId>
+    <groupId>com.github.mbmll.example</groupId>
     <artifactId>starter-free-example</artifactId>
     <packaging>pom</packaging>
 

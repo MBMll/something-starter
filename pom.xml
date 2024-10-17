@@ -359,6 +359,7 @@
             <modules>
 <!--                <module>starter-free-example/h2-example</module>-->
                 <module>starter-free-example/assembly-plugin-example</module>
+                <module>starter-example/jpa-example</module>
             </modules>
         </profile>
         <profile>
