@@ -27,5 +27,5 @@ public class H2Material implements Available<Long, Date, Boolean> {
     private Long id;
     private String name;
     private Date updateTime;
-    private Boolean deleteFlag;
+    private Boolean deleted;
 }

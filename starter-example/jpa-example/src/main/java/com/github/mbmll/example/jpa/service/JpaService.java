@@ -1,9 +1,11 @@
 package com.github.mbmll.example.jpa.service;
 
 import com.github.mbmll.example.jpa.entity.Equipment;
+import com.github.mbmll.example.jpa.entity.Equipment_;
 import com.github.mbmll.example.jpa.repository.EquipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +21,7 @@ public class JpaService {
     private EquipmentRepository equipmentRepository;
 
     private static Sort getUpdateTime() {
-        return Sort.by(Sort.Order.desc("updateTime"));
+        return Sort.by(Equipment_.UPDATE_TIME).descending();
     }
 
 //    public List<Equipment> nameAndSpecification() {
@@ -32,6 +34,7 @@ public class JpaService {
     }
 
     public List<Equipment> specification() {
-        return equipmentRepository.findAll();
+        return equipmentRepository.findAll(Specification.where(Sepcifications.getEquipmentSpecification("正常")),
+                getUpdateTime());
     }
 }
