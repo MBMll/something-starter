@@ -1,8 +1,9 @@
-version: '3'
+#version: '3'
 services:
   ##mysql配置
   mysql:
-    image: docker.io/mysql:latest
+    image: docker.io/mysql:5.7
+#    image: mysql:latest
     environment:
       ##root账号的密码
       MYSQL_ROOT_PASSWORD: 123456
