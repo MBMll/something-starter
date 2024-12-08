@@ -1,4 +1,4 @@
-package utils;
+package org.github.mbmll.starters.utils.common;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
