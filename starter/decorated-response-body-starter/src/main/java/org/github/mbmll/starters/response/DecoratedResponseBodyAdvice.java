@@ -1,6 +1,5 @@
 package org.github.mbmll.starters.response;
 
-import java.util.Objects;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +10,8 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import java.util.Objects;
+
 /**
  * @Author xlc
  * @Description encapsulate the return value of api.
@@ -20,9 +21,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 public class DecoratedResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
-        Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
-        ServerHttpResponse response) {
+    public Object beforeBodyWrite(Object body,
+                                  MethodParameter returnType,
+                                  MediaType selectedContentType,
+                                  Class<? extends HttpMessageConverter<?>> selectedConverterType,
+                                  ServerHttpRequest request,
+                                  ServerHttpResponse response) {
 
         return Res.builder().data(body).build();
     }
