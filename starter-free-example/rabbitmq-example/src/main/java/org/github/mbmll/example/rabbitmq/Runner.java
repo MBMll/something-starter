@@ -23,7 +23,14 @@ public class Runner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("Sending message...");
         rabbitTemplate.convertAndSend(FANOUT_EXCHANGE, FANOUT_QUEUE1, "Hello from RabbitMQ!");
-
+        rabbitTemplate.convertAndSend("direct.exchange", "k1", "Hello from RabbitMQ! k1");
+        rabbitTemplate.convertAndSend("direct.exchange", "k2", "Hello from RabbitMQ! k2");
+        rabbitTemplate.convertAndSend("direct.exchange", "k3", "Hello from RabbitMQ! k3");
+        rabbitTemplate.convertAndSend("topic.exchange", "t1.hello", "Hello from RabbitMQ! t1.hello");
+        rabbitTemplate.convertAndSend("topic.exchange", "t2.hello", "Hello from RabbitMQ! t2.hello");
+        rabbitTemplate.convertAndSend("topic.exchange", "t3.hello", "Hello from RabbitMQ! t3.hello");
+        rabbitTemplate.convertAndSend("topic.exchange", "t1.world", "Hello from RabbitMQ! t1.world");
+        rabbitTemplate.convertAndSend("topic.exchange", "t2.world", "Hello from RabbitMQ! t2.world");
         CountDownLatch latch = new CountDownLatch(1);
         latch.await(10, TimeUnit.SECONDS);
     }
