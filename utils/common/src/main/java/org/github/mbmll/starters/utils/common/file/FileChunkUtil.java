@@ -1,4 +1,4 @@
-package org.github.mbmll.starters.utils.common;
+package org.github.mbmll.starters.utils.common.file;
 
 
 import org.slf4j.Logger;
@@ -41,7 +41,7 @@ public class FileChunkUtil {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error writing to file", e);
         }
     }
 
@@ -61,9 +61,7 @@ public class FileChunkUtil {
             while (channel.read(buffer) > 0) {
                 buffer.flip(); // 准备读取缓冲区中的数据
                 // 处理读取到的数据块
-                byte[] data = buffer.remaining() == chunkSize ?
-                        buffer.array() :
-                        Arrays.copyOfRange(buffer.array(), 0, buffer.remaining());
+                byte[] data = Arrays.copyOfRange(buffer.array(), 0, buffer.remaining());
                 log.debug("Read: {}", data.length);
                 consumer.accept(data);
                 buffer.clear(); // 清空缓冲区以便下次读取
