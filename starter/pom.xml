@@ -23,7 +23,6 @@
         <module>captcha-starter</module>
         <module>multiply-thread-transaction-starter</module>
         <module>kafka-starter</module>
-        <module>ftp-pool-starter</module>
         <module>redission-service-starter</module>
     </modules>
 </project>
