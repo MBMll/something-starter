@@ -1,5 +1,6 @@
 package com.github.mbmll.starters.redisson;
 
+import com.github.mbmll.concept.exception.ThrowingFunction;
 import org.redisson.api.RLock;
 import org.redisson.api.RSemaphore;
 import org.redisson.api.RedissonClient;
@@ -11,7 +12,7 @@ import java.time.Duration;
 /**
  * @Author xlc
  * @Description
- * @Date 2025/7/27 14:22    
+ * @Date 2025/7/27 14:22
  */
 @Component
 public class FixedBlockingQueueLock {
@@ -26,31 +27,43 @@ public class FixedBlockingQueueLock {
      *
      * @param lockKey 锁的键值，用于在Redis中唯一标识一个锁。
      * @param waiter  队列长度，即允许等待的线程数量。
+     *
      * @return true: 获取锁成功, false: 获取锁失败。
      */
-    public boolean tryFixedQueueLock(String lockKey, int waiter) {
+    public <V, E extends Throwable> V lockWithFixedBlockingQueue(String lockKey, int waiter,
+                                                        ThrowingFunction<Void, V, E> function) throws E {
         RLock mainLock = redissonClient.getLock(LOCKER_PREFIX + lockKey);
-        // 尝试立即获取主锁
-        if (mainLock.tryLock()) {
-            return true;
-        }
-
-        // 检查等待标志（原子操作）
-        RSemaphore semaphore = redissonClient.getSemaphore(SEMAPHORE_PREFIX + lockKey);
-        // 初始化许可证
-        semaphore.trySetPermits(waiter);
-        // 设置许可证过期时间
-        semaphore.expire(Duration.ofDays(1L));
-        // 尝试获取许可证, 如果获取成功则获取锁成功, 否则直接返回  false
-        if (semaphore.tryAcquire()) {
-            try {
-                // 阻塞等待主锁（最多等待30秒）
-                mainLock.lock();
+        ThrowingFunction<Void, Boolean, E> tryLock = (Void v) -> {
+            // 尝试立即获取主锁
+            if (mainLock.tryLock()) {
                 return true;
+            }
+
+            // 检查等待标志（原子操作）
+            RSemaphore semaphore = redissonClient.getSemaphore(SEMAPHORE_PREFIX + lockKey);
+            // 初始化许可证
+            semaphore.trySetPermits(waiter);
+            // 设置许可证过期时间
+            semaphore.expire(Duration.ofDays(1L));
+            // 尝试获取许可证, 如果获取成功则获取锁成功, 否则直接返回  false
+            if (semaphore.tryAcquire()) {
+                try {
+                    // 阻塞等待主锁（最多等待30秒）
+                    mainLock.lock();
+                    return true;
+                } finally {
+                    semaphore.release();
+                }
+            }
+            return false;
+        };
+        if (Boolean.TRUE.equals(tryLock.apply(null))) {
+            try {
+                return function.apply(null);
             } finally {
-                semaphore.release();
+                mainLock.unlock();
             }
         }
-        return false;
+        return null;
     }
 }
