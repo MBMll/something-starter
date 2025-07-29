@@ -1,9 +1,9 @@
-package com.github.mbmll.concept;
+package com.github.mbmll.concept.exception;
 
 import java.util.Objects;
 
 @FunctionalInterface
-public interface ThrowableConsumer<T, E extends Throwable> {
+public interface ThrowingConsumer<T, E extends Throwable> {
 
     void accept(T t) throws E;
 
@@ -19,7 +19,7 @@ public interface ThrowableConsumer<T, E extends Throwable> {
      * operation followed by the {@code after} operation
      * @throws NullPointerException if {@code after} is null
      */
-    default ThrowableConsumer<T, E> andThen(ThrowableConsumer<? super T, E> after) {
+    default ThrowingConsumer<T, E> andThen(ThrowingConsumer<? super T, E> after) {
         Objects.requireNonNull(after);
         return (T t) -> {
             accept(t);
