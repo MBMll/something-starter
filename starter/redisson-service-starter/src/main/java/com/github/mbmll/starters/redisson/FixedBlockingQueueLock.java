@@ -31,14 +31,13 @@ public class FixedBlockingQueueLock {
      * @return true: 获取锁成功, false: 获取锁失败。
      */
     public <V, E extends Throwable> V lockWithFixedBlockingQueue(String lockKey, int waiter,
-                                                        ThrowingFunction<Void, V, E> function) throws E {
+                                                                 ThrowingFunction<Void, V, E> function) throws E {
         RLock mainLock = redissonClient.getLock(LOCKER_PREFIX + lockKey);
         ThrowingFunction<Void, Boolean, E> tryLock = (Void v) -> {
             // 尝试立即获取主锁
             if (mainLock.tryLock()) {
                 return true;
             }
-
             // 检查等待标志（原子操作）
             RSemaphore semaphore = redissonClient.getSemaphore(SEMAPHORE_PREFIX + lockKey);
             // 初始化许可证
