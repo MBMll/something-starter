@@ -3,7 +3,6 @@ package org.github.mbmll.starters.utils.common.parallel;
 
 import com.github.mbmll.concept.exception.ThrowingFunction;
 
-import java.io.Closeable;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.concurrent.*;
@@ -16,7 +15,7 @@ import java.util.function.Consumer;
  * @Date 2026/7/28 23:59
  */
 
-public class ParallelIterable<T> implements Iterable<T>, Closeable {
+public class ParallelIterable<T> implements Iterable<T> {
     private final AtomicBoolean closed = new AtomicBoolean(false);
     private final Config config;
     private final BlockingQueue<T> queue;
@@ -30,9 +29,9 @@ public class ParallelIterable<T> implements Iterable<T>, Closeable {
     public ParallelIterable(Config config, Iterator<T> iterator, ThrowingFunction<T, T, Exception> consumer) {
         this.config = config;
         queue = new LinkedBlockingQueue<>(config.bufferSize);
-        pool = createThreadPool();
+        pool = newFixedBlockingPool();
         new Thread(() -> {
-            try (this) {
+            try {
                 while (iterator.hasNext()) {
                     T next = iterator.next();
                     pool.submit(() -> {
@@ -45,7 +44,7 @@ public class ParallelIterable<T> implements Iterable<T>, Closeable {
                     });
                     if (isClosed()) {
                         try {
-                            close(pool);
+                            shutdown(pool);
                             break;
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -53,10 +52,13 @@ public class ParallelIterable<T> implements Iterable<T>, Closeable {
                         }
                     }
                 }
+            } finally {
                 try {
-                    close(pool);
+                    shutdown(pool);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
+                } finally {
+                    close();
                 }
             }
         }).start();
@@ -74,7 +76,7 @@ public class ParallelIterable<T> implements Iterable<T>, Closeable {
      *
      * @throws InterruptedException
      */
-    private void close(ExecutorService pool) throws InterruptedException {
+    private void shutdown(ExecutorService pool) throws InterruptedException {
         pool.shutdown();
         pool.awaitTermination(config.timeout, config.timeUnit);
     }
@@ -82,15 +84,17 @@ public class ParallelIterable<T> implements Iterable<T>, Closeable {
     /**
      *
      */
-    @Override
     public void close() {
         closed.set(true);
     }
 
     /**
+     * fixed parallelism
+     * blocking main thread
+     *
      * @return
      */
-    private ExecutorService createThreadPool() {
+    private ExecutorService newFixedBlockingPool() {
         return new ThreadPoolExecutor(config.parallelism, config.parallelism,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>(config.bufferSize),
@@ -108,42 +112,40 @@ public class ParallelIterable<T> implements Iterable<T>, Closeable {
 
             /**
              * @return
-             */
-            @Override
-            public boolean hasNext() {
-                if (next == null) {
-                    try {
-                        next = tryNext();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                return next != null;
-            }
-
-            /**
-             * @return
              *
              * @throws InterruptedException
              */
             private T tryNext() throws InterruptedException {
                 while (true) {
-                    T next = null;
-                    try {
-                        next = queue.poll(10, TimeUnit.MILLISECONDS);
-                        if (next != null) {
-                            return next;
-                        }
-                    } finally {
-                        // if pool is terminated,
-                        if (pool.isTerminated() && queue.isEmpty()) {
-                            System.out.println("pool is terminated: " + pool.isTerminated());
-                            System.out.println("queue is empty: " + queue.isEmpty());
-                            return next;
-                        }
+                    T v = queue.poll(10, TimeUnit.MILLISECONDS);
+                    if (v != null) {
+                        return v;
+                    }
+                    // if pool is terminated, queue still has elements
+                    if (pool.isTerminated() && queue.isEmpty()) {
+                        return v;
                     }
                 }
             }
+
+            /**
+             * @return
+             */
+            @Override
+            public boolean hasNext() {
+                try {
+                    if (next == null) {
+                        next = tryNext();
+                    }
+                    return next != null;
+                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
+                    return false;
+                }
+            }
+
 
             /**
              * @return
