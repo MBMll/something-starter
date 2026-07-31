@@ -1,11 +1,13 @@
 package org.github.mbmll.starters.utils.common.parallel;
 
-
 import com.github.mbmll.concept.exception.ThrowingFunction;
-
 import java.util.Iterator;
 import java.util.Spliterator;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
@@ -16,17 +18,19 @@ import java.util.function.Consumer;
  */
 
 public class ParallelIterable<T> implements Iterable<T> {
-    private final AtomicBoolean closed = new AtomicBoolean(false);
-    private final Config config;
+    private final AtomicBoolean    closed = new AtomicBoolean(false);
+    private final Config           config;
     private final BlockingQueue<T> queue;
-    private final ExecutorService pool;
+    private final ExecutorService  pool;
 
     /**
      * @param config
      * @param iterator
      * @param consumer
      */
-    public ParallelIterable(Config config, Iterator<T> iterator, ThrowingFunction<T, T, Exception> consumer) {
+    public ParallelIterable(Config config,
+                            Iterator<T> iterator,
+                            ThrowingFunction<T, T, Exception> consumer) {
         this.config = config;
         queue = new LinkedBlockingQueue<>(config.bufferSize);
         pool = newFixedBlockingPool();
@@ -73,12 +77,13 @@ public class ParallelIterable<T> implements Iterable<T> {
 
     /**
      * @param pool
-     *
      * @throws InterruptedException
      */
-    private void shutdown(ExecutorService pool) throws InterruptedException {
+    private void shutdown(ExecutorService pool)
+        throws InterruptedException {
         pool.shutdown();
-        pool.awaitTermination(config.timeout, config.timeUnit);
+        pool.awaitTermination(config.timeout,
+                              config.timeUnit);
     }
 
     /**
@@ -95,10 +100,12 @@ public class ParallelIterable<T> implements Iterable<T> {
      * @return
      */
     private ExecutorService newFixedBlockingPool() {
-        return new ThreadPoolExecutor(config.parallelism, config.parallelism,
-                0L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<>(config.bufferSize),
-                new ThreadPoolExecutor.CallerRunsPolicy()
+        return new ThreadPoolExecutor(config.parallelism,
+                                      config.parallelism,
+                                      0L,
+                                      TimeUnit.MILLISECONDS,
+                                      new LinkedBlockingQueue<>(config.bufferSize),
+                                      new ThreadPoolExecutor.CallerRunsPolicy()
         );
     }
 
@@ -115,9 +122,11 @@ public class ParallelIterable<T> implements Iterable<T> {
              *
              * @throws InterruptedException
              */
-            private T tryNext() throws InterruptedException {
+            private T tryNext()
+                throws InterruptedException {
                 while (true) {
-                    T v = queue.poll(10, TimeUnit.MILLISECONDS);
+                    T v = queue.poll(10,
+                                     TimeUnit.MILLISECONDS);
                     if (v != null) {
                         return v;
                     }
@@ -145,7 +154,6 @@ public class ParallelIterable<T> implements Iterable<T> {
                     return false;
                 }
             }
-
 
             /**
              * @return
@@ -179,9 +187,9 @@ public class ParallelIterable<T> implements Iterable<T> {
      *
      */
     public static class Config {
-        private int parallelism = 4;
-        private int bufferSize = 500;
-        private long timeout = 1;
-        private TimeUnit timeUnit = TimeUnit.HOURS;
+        private final int      parallelism = 4;
+        private final int      bufferSize  = 500;
+        private final long     timeout     = 1;
+        private final TimeUnit timeUnit    = TimeUnit.HOURS;
     }
 }
