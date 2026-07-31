@@ -7,5 +7,6 @@ package com.github.mbmll.concept.fields;
  * @param <D> update time datetime
  * @param <B> delete flag boolean
  */
-public interface Available<I, D, B> extends Id<I>, UpdateTime<D>, Deleted<B> {
+public interface Available<I, D, B>
+    extends Id<I>, UpdateTime<D>, Deleted<B> {
 }

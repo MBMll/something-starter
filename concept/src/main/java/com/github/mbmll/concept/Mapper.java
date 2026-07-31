@@ -5,7 +5,6 @@ package com.github.mbmll.concept;
  *
  * @param <T>
  * @param <S>
- *
  * @see SimpleMapper
  */
 

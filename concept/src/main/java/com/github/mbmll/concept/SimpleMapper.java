@@ -6,11 +6,11 @@ package com.github.mbmll.concept;
  *
  * @param <T> 来自外部的数据
  * @param <S> 来自内部的数据
- *
  * @author xlc
  */
 
-public interface SimpleMapper<T, S> extends Mapper<T, S, S, T> {
+public interface SimpleMapper<T, S>
+    extends Mapper<T, S, S, T> {
     @Override
     S parse(T target);
 

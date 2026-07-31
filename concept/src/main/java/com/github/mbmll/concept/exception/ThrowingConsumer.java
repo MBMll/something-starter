@@ -5,7 +5,8 @@ import java.util.Objects;
 @FunctionalInterface
 public interface ThrowingConsumer<T, E extends Throwable> {
 
-    void accept(T t) throws E;
+    void accept(T t)
+        throws E;
 
     /**
      * Returns a composed {@code Consumer} that performs, in sequence, this

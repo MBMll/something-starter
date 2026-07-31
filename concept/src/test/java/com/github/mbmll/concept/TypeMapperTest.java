@@ -1,10 +1,8 @@
 package com.github.mbmll.concept;
 
-
+import java.util.Map;
 import lombok.Data;
 import org.junit.Test;
-
-import java.util.Map;
 
 /**
  * @Author xlc
@@ -36,7 +34,8 @@ class TypeMapperTest {
      * @Date 2023/7/25 18:17
      */
 
-    public static class BooleanMapper implements Mapper<String, Boolean, BooleanMapperDemo, Map<String, Object>> {
+    public static class BooleanMapper
+        implements Mapper<String, Boolean, BooleanMapperDemo, Map<String, Object>> {
         @Override
         public Boolean parse(Map<String, Object> map) {
             return "是".equals(String.valueOf(map.get("enableFlg")));

@@ -8,7 +8,11 @@ package com.github.mbmll.concept.fields;
  * @Date 2024/3/9 16:47:15
  */
 
-public interface UpdateTime<T> extends Field {
+public interface UpdateTime<T>
+    extends Field {
+    /**
+     * @param updateTime
+     */
     void setUpdateTime(T updateTime);
 
     T getUpdateTime();

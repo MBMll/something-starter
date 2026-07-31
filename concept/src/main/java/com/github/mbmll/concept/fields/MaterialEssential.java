@@ -9,22 +9,32 @@ import java.util.Date;
  * @param <D>
  * @param <B>
  */
-public interface MaterialEssential<I, D, B> extends Essential<I, D, B>, Name {
-    static void create(MaterialEssential e, String userId) {
+public interface MaterialEssential<I, D, B>
+    extends Essential<I, D, B>, Name {
+    /**
+     * @param e
+     * @param userId
+     */
+    static void create(MaterialEssential e,
+                       String userId) {
         e.setDeleted(false);
 //        e.setCreateId(userId);
         e.setCreateTime(new Date());
     }
 
-    static void update(MaterialEssential e, String userId) {
+    static void update(MaterialEssential e,
+                       String userId) {
 //        e.setUpdateId(userId);
         e.setUpdateTime(new Date());
     }
 
-    static void save(MaterialEssential e, String userId) {
+    static void save(MaterialEssential e,
+                     String userId) {
         if (e.getId() == null) {
-            create(e, userId);
+            create(e,
+                   userId);
         }
-        update(e, userId);
+        update(e,
+               userId);
     }
 }

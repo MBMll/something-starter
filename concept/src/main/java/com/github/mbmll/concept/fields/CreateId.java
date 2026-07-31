@@ -1,7 +1,17 @@
 package com.github.mbmll.concept.fields;
 
-public interface CreateId<T> extends Field {
-    void setCreateId(T createId);
-
+/**
+ * @param <T>
+ */
+public interface CreateId<T>
+    extends Field {
+    /**
+     * @return
+     */
     T getCreateId();
+
+    /**
+     * @param createId
+     */
+    void setCreateId(T createId);
 }
